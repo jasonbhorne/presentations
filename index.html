@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Presentations &middot; Jason Horne</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#faf8f3; --surface:#f2ede2; --border:#d4c9b0;
+  --ink:#1a1208; --muted:#6b5f4a; --accent:#c0392b;
+  --display:'Playfair Display',serif; --body:'Source Serif 4',serif;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--ink); font-family:var(--body); min-height:100vh; padding:7vw 8vw; }
+.eyebrow { font-size:14px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:var(--accent); margin-bottom:18px; }
+h1 { font-family:var(--display); font-weight:900; font-size:clamp(40px,7vw,76px); line-height:1.02; margin-bottom:14px; }
+.sub { font-family:var(--body); font-weight:300; font-style:italic; font-size:clamp(18px,2.4vw,24px); color:var(--muted); max-width:640px; }
+.rule { width:64px; height:3px; background:var(--accent); margin:34px 0 48px; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:26px; max-width:1000px; }
+a.card {
+  display:block; text-decoration:none; color:inherit;
+  background:var(--surface); border-top:3px solid var(--accent);
+  padding:34px 32px; transition:transform 0.2s, box-shadow 0.2s;
+}
+a.card:hover { transform:translateY(-4px); box-shadow:0 10px 30px rgba(26,18,8,0.12); }
+a.card h2 { font-family:var(--display); font-weight:700; font-size:27px; line-height:1.15; margin-bottom:10px; }
+a.card p { font-family:var(--body); font-weight:300; font-size:16.5px; color:var(--muted); line-height:1.5; }
+a.card .go { display:inline-block; margin-top:18px; font-size:14px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; color:var(--accent); }
+footer { margin-top:56px; font-size:14px; color:var(--muted); }
+footer a { color:var(--accent); text-decoration:none; }
+</style>
+</head>
+<body>
+  <div class="eyebrow">Presentations</div>
+  <h1>Jason Horne</h1>
+  <p class="sub">Interactive talks and decks. Open any presentation below, then use the arrow keys or click to advance.</p>
+  <div class="rule"></div>
+
+  <div class="grid">
+    <a class="card" href="./screentime/">
+      <h2>Screentime: What the Research Is Actually Saying</h2>
+      <p>What the evidence says about screens and learning. It is the type of use, not the total time. Built for the WSCC Literacy Conference.</p>
+      <span class="go">Open &rarr;</span>
+    </a>
+    <a class="card" href="./claude-code-for-administrators/">
+      <h2>Claude Code for Administrators</h2>
+      <p>Using AI agents to run real district operations work, from data pipelines to reporting.</p>
+      <span class="go">Open &rarr;</span>
+    </a>
+  </div>
+
+  <footer>Dr. Jason Horne &middot; Greeneville City Schools &middot; <a href="https://jasonhorne.org">jasonhorne.org</a></footer>
+</body>
+</html>

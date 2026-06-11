@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Screentime: What the Research Is Actually Saying</title>
+
+<!-- Fonts: Editorial preset (Playfair Display + Source Serif 4) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300&display=swap" rel="stylesheet">
+
+<!-- Animation + charts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+/* ============================================================
+   STYLE: Editorial preset
+   ============================================================ */
+:root {
+  --bg:             #faf8f3;
+  --surface:        #f2ede2;
+  --border:         #d4c9b0;
+  --text-primary:   #1a1208;
+  --text-secondary: #6b5f4a;
+  --accent:         #c0392b;
+  --accent-2:       #2c3e50;
+
+  --font-display: 'Playfair Display', serif;
+  --font-body:    'Source Serif 4', serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #14100a;            /* letterbox bars */
+  font-family: var(--font-body);
+}
+
+/* ============================================================
+   VIEWPORT SCALING — author at 1280x720, scale as one unit
+   ============================================================ */
+.slides-wrapper {
+  position: fixed;
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  background: var(--bg);
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 84px 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: var(--bg);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.slide.active { opacity: 1; visibility: visible; pointer-events: auto; }
+
+/* ---- shared type ---- */
+.eyebrow {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 26px;
+}
+.eyebrow.muted { color: var(--text-secondary); }
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: var(--text-primary);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+}
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.08;
+  font-size: 52px;
+  letter-spacing: -0.01em;
+}
+.lead {
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--text-secondary);
+  font-size: 26px;
+  line-height: 1.5;
+  max-width: 880px;
+}
+.source {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-top: 22px;
+}
+
+/* thin rule under the accent */
+.rule { width: 64px; height: 3px; background: var(--accent); margin: 0 0 28px; }
+
+/* ---- big stat ---- */
+.stat {
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: var(--accent);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+}
+
+/* ---- card grids ---- */
+.cards { display: grid; gap: 26px; margin-top: 16px; }
+.cards.three { grid-template-columns: repeat(3, 1fr); }
+.cards.four  { grid-template-columns: repeat(2, 1fr); }
+.card {
+  background: var(--surface);
+  border-top: 3px solid var(--accent);
+  padding: 30px 28px;
+  position: relative;
+}
+.card .num {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 40px;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 14px;
+}
+.card h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 23px;
+  color: var(--text-primary);
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+.card p {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* ---- split layout ---- */
+.split { display: grid; grid-template-columns: 1.05fr 1fr; gap: 64px; align-items: center; }
+.split .visual { display: flex; flex-direction: column; justify-content: center; }
+
+/* two-column comparison */
+.compare { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 12px; }
+.compare .colhead {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 28px;
+  color: var(--accent-2);
+  line-height: 1.1;
+  margin-bottom: 14px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--border);
+}
+.compare p { font-family: var(--font-body); font-weight: 300; font-size: 19px; color: var(--text-secondary); line-height: 1.55; }
+
+/* stat row */
+.statrow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 20px; }
+.statrow .s { font-family: var(--font-display); font-weight: 900; font-size: 58px; color: var(--accent); line-height: 1; }
+.statrow .t { font-family: var(--font-body); font-weight: 300; font-size: 17px; color: var(--text-secondary); line-height: 1.45; margin-top: 12px; }
+
+/* bullet list */
+.blist { list-style: none; margin-top: 8px; }
+.blist li {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 23px;
+  color: var(--text-primary);
+  line-height: 1.4;
+  padding: 18px 0 18px 38px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+.blist li:before {
+  content: "";
+  position: absolute;
+  left: 0; top: 30px;
+  width: 18px; height: 3px;
+  background: var(--accent);
+}
+.blist li b { font-weight: 600; color: var(--text-primary); }
+
+/* headline chips for slide 2 */
+.chips { display: flex; flex-wrap: wrap; gap: 14px; max-width: 900px; margin-top: 8px; }
+.chip {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--text-secondary);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 18px;
+  transform: rotate(var(--rot, 0deg));
+}
+
+/* footer signature */
+.sig {
+  position: absolute;
+  left: 96px; bottom: 64px;
+  font-family: var(--font-body);
+  font-size: 17px;
+  color: var(--text-secondary);
+}
+.sig b { color: var(--text-primary); font-weight: 600; }
+
+/* per-slide source citation (bottom-left) */
+.cite {
+  position: absolute;
+  left: 96px; bottom: 34px;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 14px;
+  color: #a99c80;
+  max-width: 1000px;
+  padding-left: 16px;
+  border-left: 3px solid var(--accent);
+  line-height: 1.35;
+}
+
+/* pull quote (Horvath slide) */
+.pullquote {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-style: italic;
+  font-size: 46px;
+  line-height: 1.18;
+  color: var(--text-primary);
+  max-width: 1040px;
+  position: relative;
+  padding-left: 40px;
+  border-left: 5px solid var(--accent);
+}
+.attrib {
+  font-family: var(--font-body);
+  font-size: 19px;
+  color: var(--text-secondary);
+  margin-top: 26px;
+  padding-left: 45px;
+}
+.attrib b { color: var(--text-primary); font-weight: 600; }
+
+/* references slides */
+.refs { list-style: none; margin-top: 18px; column-count: 2; column-gap: 56px; }
+.refs li {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  color: var(--text-primary);
+  line-height: 1.4;
+  margin-bottom: 16px;
+  break-inside: avoid;
+  padding-left: 22px;
+  text-indent: -22px;
+}
+.refs li b { font-weight: 600; }
+.refs li i { color: var(--text-secondary); }
+
+/* chart box */
+.chartbox { width: 100%; height: 320px; }
+
+/* ============================================================
+   NAV: dots + counter + progress
+   ============================================================ */
+.slide-dots {
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  display: flex; gap: 9px; z-index: 100;
+}
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #d8cfbf; opacity: 0.55;
+  cursor: pointer; transition: all 0.3s; border: none; padding: 0;
+}
+.dot.active { background: var(--accent); opacity: 1; transform: scale(1.4); }
+
+.counter {
+  position: fixed; bottom: 22px; right: 28px; z-index: 100;
+  font-family: var(--font-body); font-size: 14px; color: #c9bfa9; letter-spacing: 0.05em;
+}
+.progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+  background: var(--accent); z-index: 100; transition: width 0.4s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<div class="slides-wrapper">
+
+  <!-- ============ SLIDE 1: TITLE ============ -->
+  <section class="slide active">
+    <div class="eyebrow reveal">WSCC Literacy Conference &nbsp;&middot;&nbsp; September 11, 2026</div>
+    <h1 class="reveal" style="font-size:128px;">Screentime</h1>
+    <div class="rule reveal" style="margin-top:30px;"></div>
+    <p class="lead reveal" style="font-size:34px; font-weight:400; color:var(--text-primary); font-style:italic;">What the research is actually saying</p>
+    <div class="sig reveal"><b>Dr. Jason Horne</b> &nbsp;&middot;&nbsp; Greeneville City Schools</div>
+  </section>
+
+  <!-- ============ SLIDE 2: THE NOISE ============ -->
+  <section class="slide">
+    <div class="eyebrow muted reveal">The noise</div>
+    <h2 class="reveal" style="max-width:980px;">Everyone has an opinion about kids and screens.</h2>
+    <p class="lead reveal" style="margin-top:22px;">Most of those opinions come from headlines, not evidence. So let's start by setting the headlines aside.</p>
+    <div class="chips reveal" style="margin-top:44px;">
+      <span class="chip" style="--rot:-1.5deg;">"Smartphones are rewiring a generation"</span>
+      <span class="chip" style="--rot:1deg;">"Ban the phones, save the kids"</span>
+      <span class="chip" style="--rot:-0.5deg;">"Screens are destroying attention spans"</span>
+      <span class="chip" style="--rot:1.5deg;">"Tech in schools is a failed experiment"</span>
+      <span class="chip" style="--rot:-1deg;">"Just give every student a laptop"</span>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 3: WHY NOW? ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">Why now?</div>
+    <h2 class="reveal">Why this is suddenly everywhere.</h2>
+    <div class="cards three" style="margin-top:44px;">
+      <div class="card reveal">
+        <div class="num">01</div>
+        <h3>A policy wave</h3>
+        <p>By the end of 2025, 35 states plus D.C. had restricted phones in schools, 22 of them in 2025 alone.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">02</div>
+        <h3>A health alarm</h3>
+        <p>The U.S. Surgeon General's 2023 advisory named social media a risk to youth mental health.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">03</div>
+        <h3>A best-selling backlash</h3>
+        <p>Horvath's <i>The Digital Delusion</i> and his 2026 Senate testimony pushed "screens hurt learning" into the mainstream.</p>
+      </div>
+    </div>
+    <div class="cite reveal">Ballotpedia (2025); U.S. Surgeon General (2023); Horvath, U.S. Senate testimony (January 2026).</div>
+  </section>
+
+  <!-- ============ SLIDE 4: THE THESIS ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">The finding</div>
+    <h1 class="reveal" style="font-size:74px; max-width:1040px;">It is the <span style="color:var(--accent);">type of use</span>, not the total time, that decides whether screens help or harm learning.</h1>
+    <p class="lead reveal" style="margin-top:34px;">Across 51 findings from 45 sources, aggregate screen time is a poor predictor. What the screen is doing matters far more than how long it is on.</p>
+    <div class="cite reveal">Synthesis of 45 sources, government, academic, and news. UNESCO (2023); OECD (2024); JAMA Pediatrics meta-analysis (2019).</div>
+  </section>
+
+  <!-- ============ SLIDE 4: WHEN SCREENS HURT ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">When screens hurt</div>
+    <h2 class="reveal">Passive and recreational use drags learning down.</h2>
+    <div class="cards three" style="margin-top:46px;">
+      <div class="card reveal">
+        <div class="num">01</div>
+        <h3>Television</h3>
+        <p>Inversely linked to both language and math scores. More viewing, lower performance.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">02</div>
+        <h3>Video gaming</h3>
+        <p>Inversely associated with composite academic scores across studies.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">03</div>
+        <h3>The dosage effect</h3>
+        <p>Adverse effects become pronounced once passive use passes roughly three hours a day.</p>
+      </div>
+    </div>
+    <div class="cite reveal">Adelantado-Renau et al. (2019), <i>JAMA Pediatrics</i> meta-analysis; Li et al. (2025), <i>Frontiers in Public Health</i>.</div>
+  </section>
+
+  <!-- ============ SLIDE 5: THE 3-HOUR LINE ============ -->
+  <section class="slide">
+    <div class="split">
+      <div>
+        <div class="eyebrow reveal">The threshold</div>
+        <div class="stat reveal" style="font-size:150px;">3<span style="font-size:60px;">hrs</span></div>
+        <p class="lead reveal" style="margin-top:14px; font-size:23px;">is the daily line where risk to mental health and academics accelerates.</p>
+      </div>
+      <div class="visual">
+        <p class="lead reveal" style="font-size:30px; color:var(--text-primary); font-weight:400; line-height:1.45;">Teens spending more than three hours a day on social media face roughly <b style="color:var(--accent);">double the risk</b> of depression and anxiety.</p>
+        <p class="source reveal">That risk is a primary driver of declining academic engagement.</p>
+      </div>
+    </div>
+    <div class="cite reveal">U.S. Surgeon General (2023), Social Media and Youth Mental Health Advisory; CDC (2025).</div>
+  </section>
+
+  <!-- ============ SLIDE 6: THE PISA GAP (chart) ============ -->
+  <section class="slide">
+    <div class="split">
+      <div>
+        <div class="eyebrow reveal">The cost of distraction</div>
+        <div class="stat reveal" style="font-size:118px;">49<span style="font-size:46px;"> pts</span></div>
+        <p class="lead reveal" style="margin-top:10px; font-size:21px;">The math-score gap between students with under one hour and those with five to seven hours of leisure screen time at school. Roughly more than a full year of schooling.</p>
+      </div>
+      <div class="visual">
+        <div class="chartbox reveal"><canvas id="pisaChart"></canvas></div>
+      </div>
+    </div>
+    <div class="cite reveal">OECD (2024), Students, Digital Devices and Success, drawing on PISA 2022. Bars shown proportionally.</div>
+  </section>
+
+  <!-- ============ SLIDE 7: WHEN SCREENS HELP ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">When screens help</div>
+    <h2 class="reveal">Purposeful, teacher-guided use can lift outcomes.</h2>
+    <ul class="blist reveal" style="max-width:1000px; margin-top:26px;">
+      <li>Moderate device use for <b>learning</b>, about one to five hours, beats non-use on PISA math.</li>
+      <li>For ages one to eight, story-congruent interactive features can <b>aid</b> comprehension.</li>
+      <li>The quality of the interaction matters more than the quantity of time.</li>
+    </ul>
+    <div class="cite reveal">OECD (2024), Technology Use at School and Students' Learning Outcomes; Furenes et al. (2021).</div>
+  </section>
+
+  <!-- ============ SLIDE 8: THE EDTECH PARADOX ============ -->
+  <section class="slide">
+    <div class="split">
+      <div>
+        <div class="eyebrow reveal">The EdTech paradox</div>
+        <div class="stat reveal" style="font-size:170px;">&lt;2%</div>
+      </div>
+      <div class="visual">
+        <p class="lead reveal" style="font-size:30px; color:var(--text-primary); font-weight:400; line-height:1.4;">of education-technology interventions have <b style="color:var(--accent);">strong or moderate evidence</b> of effectiveness.</p>
+        <p class="source reveal">UNESCO 2023 Global Education Monitoring Report.</p>
+        <p class="lead reveal" style="margin-top:26px; font-size:21px;">Hardware without pedagogy is not a strategy. Professional development is the variable that decides whether devices work.</p>
+      </div>
+    </div>
+    <div class="cite reveal">UNESCO (2023), Global Education Monitoring Report: Technology in Education.</div>
+  </section>
+
+  <!-- ============ HORVATH: A VOICE IN THE DEBATE ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">A voice fueling the debate</div>
+    <blockquote class="pullquote reveal">"Most general-use educational technologies perform below the effectiveness of ordinary classroom instruction."</blockquote>
+    <div class="attrib reveal"><b>Dr. Jared Cooney Horvath</b>, cognitive neuroscientist. MEd, Mind, Brain &amp; Education, Harvard; PhD, University of Melbourne. U.S. Senate testimony, January 2026.</div>
+    <p class="lead reveal" style="margin-top:30px; font-size:20px; max-width:1040px;">His binge-watching research adds the twist: massed viewing builds strong memories that fade the fastest. With screens, how content is delivered shapes what actually sticks.</p>
+    <div class="cite reveal">Horvath, Lodge et al. (2017), <i>First Monday</i>; Horvath, <i>The Digital Delusion</i> (2026).</div>
+  </section>
+
+  <!-- ============ SLIDE: PHONE BANS WORK ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">Policy that works</div>
+    <h2 class="reveal">Phone bans produce modest but real gains.</h2>
+    <div class="statrow reveal" style="margin-top:40px;">
+      <div>
+        <div class="s">+6%</div>
+        <div class="t">Average test-score gain in English secondary schools after bell-to-bell bans.</div>
+      </div>
+      <div>
+        <div class="s">14.2%</div>
+        <div class="t">Of a standard deviation: the gain for low-achieving students, who benefit most.</div>
+      </div>
+      <div>
+        <div class="s">35</div>
+        <div class="t">U.S. states with phone-restrictive policies as of late 2025, and climbing.</div>
+      </div>
+    </div>
+    <p class="source reveal" style="margin-top:30px;">Florida saw gains concentrated in middle and high school, partly from fewer unexcused absences. Full agreement across government, news, and academic sources.</p>
+    <div class="cite reveal">Beland &amp; Murphy (2016), <i>Labour Economics</i> (UK); Figlio &amp; Ozek (2025), NBER w34388 (Florida); Ballotpedia (2025).</div>
+  </section>
+
+  <!-- ============ SLIDE 10: BUT CONTEXT MATTERS ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">But context matters</div>
+    <h2 class="reveal" style="font-size:46px;">Two cautions before you copy the policy.</h2>
+    <div class="compare reveal" style="margin-top:34px;">
+      <div>
+        <div class="colhead">The Sweden contradiction</div>
+        <p>Identical bans showed <b>no effect</b> in Sweden. Students already had laptops and tablets everywhere, so removing phones did not remove digital distraction. The device that matters is the one in front of them.</p>
+      </div>
+      <div>
+        <div class="colhead">The equity caveat</div>
+        <p>Florida saw a first-year spike in discipline, including a 30% increase in suspensions for Black students. Track discipline data by subgroup so enforcement does not widen gaps.</p>
+      </div>
+    </div>
+    <div class="cite reveal">Sungu, Choudhury &amp; Bjerre-Nielsen (2025), SSRN (Sweden); Barnum (2025), The Hechinger Report (equity).</div>
+  </section>
+
+  <!-- ============ SLIDE 11: SCREEN INFERIORITY EFFECT ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">Reading specifically</div>
+    <h2 class="reveal">For deep reading, paper still wins.</h2>
+    <ul class="blist reveal" style="max-width:1020px; margin-top:26px;">
+      <li>Students reading on paper consistently <b>outperform</b> those reading the same text on screens.</li>
+      <li>The gap <b>widens</b> for informational text, and under time pressure or unsupervised conditions.</li>
+      <li>Scrolling on small screens reduces comprehension further still.</li>
+    </ul>
+    <p class="source reveal">This is the "screen inferiority effect," and it lands squarely in our work as literacy educators.</p>
+    <div class="cite reveal">Furenes, Kucirkova &amp; Bus (2021), <i>Review of Educational Research</i>; Kong et al. (2024); Ulum (2026).</div>
+  </section>
+
+  <!-- ============ SLIDE 12: MENTAL HEALTH MEDIATOR ============ -->
+  <section class="slide">
+    <div class="split">
+      <div>
+        <div class="eyebrow reveal">The hidden mediator</div>
+        <div class="stat reveal" style="font-size:130px; line-height:1;">1 in 3</div>
+        <p class="lead reveal" style="margin-top:14px;">adolescents use screens until midnight or later.</p>
+      </div>
+      <div class="visual">
+        <p class="lead reveal" style="font-size:29px; color:var(--text-primary); font-weight:400; line-height:1.45;">Screens often reach the gradebook <b style="color:var(--accent);">indirectly</b>, through lost sleep and social media stress.</p>
+        <p class="source reveal">The path to grades runs through attention, sleep, and mental health. Address those and the academics follow.</p>
+      </div>
+    </div>
+    <div class="cite reveal">Pew Research Center (2024), Teens, Social Media and Technology; WHO Europe (2024).</div>
+  </section>
+
+  <!-- ============ SLIDE 13: THE PLAYBOOK ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">What to do Monday</div>
+    <h2 class="reveal" style="font-size:46px;">The evidence-based playbook.</h2>
+    <div class="cards four" style="margin-top:34px;">
+      <div class="card reveal">
+        <div class="num">01</div>
+        <h3>Store phones bell to bell</h3>
+        <p>Pouches or lockers for personal devices. Expect academic gains to show by year two.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">02</div>
+        <h3>Keep paper for deep reading</h3>
+        <p>Use print for expository reading and assessment to dodge the screen inferiority effect.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">03</div>
+        <h3>PD before devices</h3>
+        <p>Never hand out hardware without teacher training. Pedagogy is what makes 1:1 work.</p>
+      </div>
+      <div class="card reveal">
+        <div class="num">04</div>
+        <h3>Name the two uses</h3>
+        <p>Separate recreational use (limit it) from instructional use (teacher-led) in policy.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 14: CLOSING ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">The takeaway</div>
+    <h1 class="reveal" style="font-size:96px; max-width:1040px;">Be the <span style="color:var(--accent);">evidence</span> in the building.</h1>
+    <p class="lead reveal" style="margin-top:30px; font-size:28px;">It is the type of use, not the time. Sort the strong findings from the shaky ones, and lead the conversation with teachers, parents, and students.</p>
+    <div class="sig reveal"><b>Dr. Jason Horne</b> &nbsp;&middot;&nbsp; Greeneville City Schools &nbsp;&middot;&nbsp; jasonhorne.org</div>
+  </section>
+
+  <!-- ============ SLIDE 15: REFERENCES (1 of 2) ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">References &amp; further reading &nbsp;&middot;&nbsp; 1 of 2</div>
+    <ul class="refs reveal">
+      <li>Adelantado-Renau, M., et al. (2019). Association Between Screen Media Use and Academic Performance. <i>JAMA Pediatrics.</i></li>
+      <li>Beland, L.-P., &amp; Murphy, R. (2016). Ill Communication: Technology, Distraction &amp; Student Performance. <i>Labour Economics.</i></li>
+      <li>Barnum, M. (2025). Cellphone bans can help kids learn, but Black students are suspended more. <i>The Hechinger Report.</i></li>
+      <li>CDC (2025). Associations Between Screen Time Use and Health Outcomes Among US Teenagers.</li>
+      <li>Figlio, D., &amp; Ozek, U. (2025). The Impact of Cellphone Bans in Schools: Evidence from Florida. <i>NBER Working Paper w34388.</i></li>
+      <li>Furenes, M. I., Kucirkova, N., &amp; Bus, A. G. (2021). Children's Reading on Paper Versus Screen: A Meta-Analysis. <i>Review of Educational Research.</i></li>
+      <li>Horvath, J. C., et al. (2017). The Impact of Binge Watching on Memory and Perceived Comprehension. <i>First Monday.</i></li>
+      <li>Horvath, J. C. (2026). <i>The Digital Delusion.</i> Harmony / Penguin Random House.</li>
+      <li>Kong, Y., Seo, Y. S., &amp; Zhai, L. (2024). Paper versus digital reading: a meta-analysis. <i>Computers and Education Open.</i></li>
+      <li>Li, Y., et al. (2025). Screen time and academic performance among adolescents. <i>Frontiers in Public Health.</i></li>
+    </ul>
+    <div class="cite reveal">Full report: 45 sources across government, academic, news, and industry, with reliability ratings.</div>
+  </section>
+
+  <!-- ============ SLIDE 16: REFERENCES (2 of 2) ============ -->
+  <section class="slide">
+    <div class="eyebrow reveal">References &amp; further reading &nbsp;&middot;&nbsp; 2 of 2</div>
+    <ul class="refs reveal">
+      <li>OECD (2024). Students, Digital Devices and Success (PISA 2022).</li>
+      <li>OECD (2024). Technology Use at School and Students' Learning Outcomes.</li>
+      <li>Pew Research Center (2024). Teens, Social Media and Technology.</li>
+      <li>Sungu, A., Choudhury, P. K., &amp; Bjerre-Nielsen, A. (2025). Removing Phones from Classrooms Improves Academic Performance. <i>SSRN.</i></li>
+      <li>Ulum, H. (2026). Screen Handicap in Mathematics: A Meta-Analysis. <i>European Journal of Education.</i></li>
+      <li>UNESCO (2023). Global Education Monitoring Report: Technology in Education.</li>
+      <li>U.S. Surgeon General (2023). Social Media and Youth Mental Health Advisory.</li>
+      <li>WHO Europe (2024). Teens, Screens and Mental Health.</li>
+      <li>Ballotpedia (2025). State Policies on Cellphone Use in K-12 Public Schools.</li>
+      <li>IES / NCES (2025). Public School Leaders on Cell Phones and Academic Performance.</li>
+    </ul>
+  </section>
+
+</div>
+
+<!-- nav -->
+<nav class="slide-dots" id="dots" aria-label="Slide navigation"></nav>
+<div class="counter" id="counter">01 / 18</div>
+
+<script>
+/* ============================================================
+   VIEWPORT SCALING
+   ============================================================ */
+const SLIDE_W = 1280, SLIDE_H = 720;
+const wrapper = document.querySelector('.slides-wrapper');
+function scaleToViewport() {
+  const scale = Math.min(window.innerWidth / SLIDE_W, window.innerHeight / SLIDE_H);
+  wrapper.style.transform = `scale(${scale})`;
+  wrapper.style.transformOrigin = '0 0';
+  wrapper.style.left = ((window.innerWidth - SLIDE_W * scale) / 2) + 'px';
+  wrapper.style.top  = ((window.innerHeight - SLIDE_H * scale) / 2) + 'px';
+  wrapper.style.position = 'fixed';
+}
+window.addEventListener('resize', scaleToViewport);
+document.addEventListener('fullscreenchange', scaleToViewport);
+scaleToViewport();
+
+/* ============================================================
+   SLIDE NAVIGATION
+   ============================================================ */
+const slides = Array.from(document.querySelectorAll('.slide'));
+const dotsNav = document.getElementById('dots');
+const counter = document.getElementById('counter');
+const progress = document.getElementById('progress');
+let current = 0;
+
+// build dots
+slides.forEach((_, i) => {
+  const d = document.createElement('button');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.setAttribute('aria-label', `Go to slide ${i + 1}`);
+  d.addEventListener('click', (e) => { e.stopPropagation(); goToSlide(i); });
+  dotsNav.appendChild(d);
+});
+const dots = Array.from(document.querySelectorAll('.dot'));
+
+const pad = (n) => String(n).padStart(2, '0');
+
+function animateReveals(slide) {
+  const els = slide.querySelectorAll('.reveal');
+  gsap.fromTo(els,
+    { opacity: 0, y: 26 },
+    { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power2.out', overwrite: true }
+  );
+}
+
+function goToSlide(i) {
+  if (i < 0 || i >= slides.length || i === current) return;
+  slides[current].classList.remove('active');
+  current = i;
+  slides[current].classList.add('active');
+  dots.forEach((d, j) => d.classList.toggle('active', j === current));
+  counter.textContent = pad(current + 1) + ' / ' + pad(slides.length);
+  progress.style.width = ((current) / (slides.length - 1) * 100) + '%';
+  animateReveals(slides[current]);
+}
+function nextSlide() { goToSlide(current + 1); }
+function prevSlide() { goToSlide(current - 1); }
+
+// keyboard
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+  if (e.key === 'ArrowLeft') prevSlide();
+  if (e.key === 'Home') goToSlide(0);
+  if (e.key === 'End') goToSlide(slides.length - 1);
+});
+// click zones
+document.addEventListener('click', (e) => {
+  if (e.target.closest('button, a, input, [data-no-nav]')) return;
+  if (e.clientX > window.innerWidth / 2) nextSlide(); else prevSlide();
+});
+// touch
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+document.addEventListener('touchend', (e) => {
+  const delta = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(delta) > 50) (delta > 0 ? nextSlide() : prevSlide());
+}, { passive: true });
+// wheel
+let wheelCooldown = false;
+document.addEventListener('wheel', (e) => {
+  if (wheelCooldown) return;
+  wheelCooldown = true;
+  setTimeout(() => wheelCooldown = false, 700);
+  (e.deltaY > 0 ? nextSlide() : prevSlide());
+}, { passive: true });
+
+// initial reveal + progress
+progress.style.width = '0%';
+animateReveals(slides[0]);
+
+/* ============================================================
+   CHART: PISA gap (slide 6)
+   ============================================================ */
+const css = getComputedStyle(document.documentElement);
+const ACCENT = css.getPropertyValue('--accent').trim();
+const INK = css.getPropertyValue('--text-primary').trim();
+const SECONDARY = css.getPropertyValue('--text-secondary').trim();
+const BORDER = css.getPropertyValue('--border').trim();
+
+new Chart(document.getElementById('pisaChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Under 1 hr / day', '5 to 7 hrs / day'],
+    datasets: [{
+      data: [100, 51],   // illustrative: ~49-point gap shown proportionally
+      backgroundColor: [INK, ACCENT],
+      borderWidth: 0,
+      barPercentage: 0.6,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Relative PISA math performance by leisure screen time at school',
+        color: SECONDARY,
+        font: { family: 'Source Serif 4', size: 14, style: 'italic' }
+      },
+      tooltip: { enabled: false }
+    },
+    scales: {
+      x: { grid: { display: false }, ticks: { color: INK, font: { family: 'Source Serif 4', size: 15 } } },
+      y: { display: false, grid: { display: false }, beginAtZero: true, max: 110 }
+    },
+    animation: { duration: 1100, easing: 'easeOutQuart' }
+  }
+});
+</script>
+</body>
+</html>

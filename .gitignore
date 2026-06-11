@@ -1,0 +1,17 @@
+# OS cruft
+.DS_Store
+Thumbs.db
+
+# Never publish editable source decks or backups
+*.pptx
+*.bak
+*.bak-*
+*.bak2-*
+*.bak3-*
+*.docx
+*.key
+
+# scratch
+style-preview.html
+visual-treatment-preview.html
+build-deck.js
