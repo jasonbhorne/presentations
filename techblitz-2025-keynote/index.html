@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TechBlitz 2025 Keynote</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600&display=swap" rel="stylesheet">
+<style>
+  :root { --accent:#c0392b; --muted:#cdbfa3; --body:'Source Serif 4',serif; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#14100a; overflow:hidden; font-family:var(--body); }
+  .stage { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; }
+  .stage img { max-width:100vw; max-height:100vh; object-fit:contain; display:block; user-select:none; -webkit-user-drag:none; }
+  /* subtle chrome that does not fight the slide */
+  .back { position:fixed; top:16px; left:20px; z-index:10; font-size:13px; letter-spacing:0.08em;
+           text-transform:uppercase; color:#fff; opacity:0.55; text-decoration:none; mix-blend-mode:difference; }
+  .back:hover { opacity:1; }
+  .counter { position:fixed; bottom:16px; right:22px; z-index:10; font-size:13px; color:#fff;
+              opacity:0.5; mix-blend-mode:difference; }
+  .dots { position:fixed; bottom:14px; left:50%; transform:translateX(-50%); display:flex; gap:7px;
+           z-index:10; max-width:70vw; flex-wrap:wrap; justify-content:center; }
+  .dot { width:7px; height:7px; border-radius:50%; background:#fff; opacity:0.3; cursor:pointer;
+          border:none; padding:0; transition:all .25s; }
+  .dot.active { background:var(--accent); opacity:1; transform:scale(1.4); }
+  @media (prefers-reduced-motion: reduce) { * { transition-duration:0.01ms !important; } }
+</style>
+</head>
+<body>
+  <div class="stage"><img id="slide" alt="TechBlitz 2025 Keynote slide"></div>
+  <a class="back" href="../">&larr; All talks</a>
+  <div class="counter" id="counter"></div>
+  <nav class="dots" id="dots" aria-label="Slide navigation"></nav>
+<script>
+  const SLIDES = ["slide-01.jpg", "slide-02.jpg", "slide-03.jpg", "slide-04.jpg", "slide-05.jpg", "slide-06.jpg", "slide-07.jpg", "slide-08.jpg", "slide-09.jpg", "slide-10.jpg", "slide-11.jpg", "slide-12.jpg", "slide-13.jpg", "slide-14.jpg", "slide-15.jpg", "slide-16.jpg", "slide-17.jpg", "slide-18.jpg", "slide-19.jpg", "slide-20.jpg", "slide-21.jpg", "slide-22.jpg", "slide-23.jpg", "slide-24.jpg", "slide-25.jpg", "slide-26.jpg", "slide-27.jpg", "slide-28.jpg", "slide-29.jpg", "slide-30.jpg", "slide-31.jpg", "slide-32.jpg", "slide-33.jpg", "slide-34.jpg", "slide-35.jpg", "slide-36.jpg", "slide-37.jpg", "slide-38.jpg", "slide-39.jpg", "slide-40.jpg", "slide-41.jpg", "slide-42.jpg", "slide-43.jpg", "slide-44.jpg", "slide-45.jpg", "slide-46.jpg", "slide-47.jpg", "slide-48.jpg", "slide-49.jpg", "slide-50.jpg", "slide-51.jpg", "slide-52.jpg", "slide-53.jpg", "slide-54.jpg", "slide-55.jpg", "slide-56.jpg", "slide-57.jpg", "slide-58.jpg", "slide-59.jpg", "slide-60.jpg", "slide-61.jpg", "slide-62.jpg", "slide-63.jpg", "slide-64.jpg", "slide-65.jpg", "slide-66.jpg", "slide-67.jpg", "slide-68.jpg", "slide-69.jpg", "slide-70.jpg", "slide-71.jpg", "slide-72.jpg", "slide-73.jpg", "slide-74.jpg", "slide-75.jpg", "slide-76.jpg", "slide-77.jpg", "slide-78.jpg", "slide-79.jpg", "slide-80.jpg", "slide-81.jpg", "slide-82.jpg", "slide-83.jpg", "slide-84.jpg", "slide-85.jpg", "slide-86.jpg", "slide-87.jpg", "slide-88.jpg", "slide-89.jpg", "slide-90.jpg", "slide-91.jpg", "slide-92.jpg", "slide-93.jpg", "slide-94.jpg", "slide-95.jpg", "slide-96.jpg"];
+  const BASE = "slides/";
+  let i = 0;
+  const img = document.getElementById('slide');
+  const counter = document.getElementById('counter');
+  const dotsNav = document.getElementById('dots');
+  const pad = n => String(n).padStart(2,'0');
+
+  // preload
+  SLIDES.forEach(s => { const p = new Image(); p.src = BASE + s; });
+
+  SLIDES.forEach((_, idx) => {
+    const d = document.createElement('button');
+    d.className = 'dot' + (idx===0?' active':'');
+    d.setAttribute('aria-label', 'Go to slide ' + (idx+1));
+    d.addEventListener('click', e => { e.stopPropagation(); go(idx); });
+    dotsNav.appendChild(d);
+  });
+  const dots = [...document.querySelectorAll('.dot')];
+
+  function go(n) {
+    if (n < 0 || n >= SLIDES.length) return;
+    i = n;
+    img.src = BASE + SLIDES[i];
+    counter.textContent = pad(i+1) + ' / ' + pad(SLIDES.length);
+    dots.forEach((d,j) => d.classList.toggle('active', j===i));
+  }
+  const next = () => go(i+1), prev = () => go(i-1);
+
+  document.addEventListener('keydown', e => {
+    if (e.key==='ArrowRight'||e.key===' ') { e.preventDefault(); next(); }
+    if (e.key==='ArrowLeft') prev();
+    if (e.key==='Home') go(0);
+    if (e.key==='End') go(SLIDES.length-1);
+  });
+  document.addEventListener('click', e => {
+    if (e.target.closest('a, button')) return;
+    (e.clientX > window.innerWidth/2) ? next() : prev();
+  });
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', e => {
+    const d = tx - e.changedTouches[0].clientX;
+    if (Math.abs(d) > 50) (d>0 ? next() : prev());
+  }, {passive:true});
+  let wheelLock = false;
+  document.addEventListener('wheel', e => {
+    if (wheelLock) return; wheelLock = true; setTimeout(()=>wheelLock=false, 600);
+    (e.deltaY>0 ? next() : prev());
+  }, {passive:true});
+
+  go(0);
+</script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+[
+  {
+    "slug": "screentime",
+    "title": "Screentime: What the Research Is Actually Saying",
+    "blurb": "What the evidence says about screens and learning. It is the type of use, not the total time. Built for the WSCC Literacy Conference.",
+    "category": "ai",
+    "type": "interactive"
+  },
+  {
+    "slug": "claude-code-for-administrators",
+    "title": "Claude Code for Administrators",
+    "blurb": "Using AI agents to run real district operations work, from data pipelines to reporting.",
+    "category": "ai",
+    "type": "interactive"
+  },
+  {
+    "slug": "upward-bound-ai",
+    "title": "AI for Upward Bound",
+    "blurb": "An AI talk for the Upward Bound / UBMS Summer Academy: what these tools are, and how to use them well.",
+    "category": "ai",
+    "type": "interactive"
+  },
+  {
+    "slug": "ai-usage-keynote",
+    "title": "AI Usage Keynote",
+    "blurb": "How AI is actually being used in schools and the workplace, and where it is headed.",
+    "category": "ai",
+    "type": "images"
+  },
+  {
+    "slug": "ai-and-jobs",
+    "title": "AI and the Future of Jobs",
+    "blurb": "What AI means for work, careers, and the skills students will need.",
+    "category": "ai",
+    "type": "images"
+  },
+  {
+    "slug": "ai-teaching-use-cases",
+    "title": "AI Teaching Use Cases",
+    "blurb": "Practical, classroom-ready ways teachers can put AI to work.",
+    "category": "ai",
+    "type": "images"
+  },
+  {
+    "slug": "digital-citizenship",
+    "title": "Empowering Digital Citizenship",
+    "blurb": "Helping students navigate technology, online life, and AI responsibly.",
+    "category": "ai",
+    "type": "images"
+  },
+  {
+    "slug": "chatgpt-in-education",
+    "title": "ChatGPT in Education",
+    "blurb": "An early look at generative AI for educators, presented for the TETA Summer Institute.",
+    "category": "ai",
+    "type": "images"
+  },
+  {
+    "slug": "techblitz-2025-keynote",
+    "title": "TechBlitz 2025 Keynote",
+    "blurb": "Keynote for the TechBlitz 2025 educational technology event.",
+    "category": "ai",
+    "type": "images"
+  }
+]

@@ -1,0 +1,1285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Good, The Bad, and The Ugly of AI — Upward Bound</title>
+
+<!-- Western fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Smokum&family=Rye&family=Special+Elite&family=Bree+Serif&family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+
+<!-- GSAP for animations -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<style>
+/* ===================== STYLE B — SALOON DARK ===================== */
+:root {
+  --bg-deep:        #150a04;
+  --bg-mid:         #1f1208;
+  --bg-light:       #2e1d0d;
+  --surface:        #281709;
+  --border:         #6e4a20;
+  --border-soft:    #4a3018;
+
+  --text-primary:   #f0d9a8;
+  --text-secondary: #c8a878;
+  --text-muted:     #a08858;
+
+  --accent:         #d68a3c;     /* whiskey gold */
+  --accent-bright:  #e8c878;     /* lit lantern */
+  --accent-red:     #b03020;     /* dried-blood red, like the movie poster title */
+  --danger:         #8c1a0e;     /* blood red */
+
+  --font-display:   'Smokum', 'Rye', cursive;
+  --font-display-2: 'Rye', cursive;
+  --font-serif:     'IM Fell English SC', serif;
+  --font-body:      'Bree Serif', serif;
+  --font-type:      'Special Elite', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-primary);
+  cursor: default;
+}
+
+/* ===================== VIEWPORT SCALER ===================== */
+.slides-wrapper {
+  position: fixed;
+  width: 1280px;
+  height: 720px;
+  overflow: hidden;
+  background: var(--bg-mid);
+}
+
+/* ===================== SHARED SLIDE CHROME ===================== */
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(120,70,30,0.20), transparent 55%),
+    radial-gradient(ellipse at 80% 80%, rgba(90,50,20,0.18), transparent 55%),
+    linear-gradient(135deg, var(--bg-deep) 0%, var(--bg-mid) 50%, var(--bg-light) 100%);
+  padding: 60px 80px;
+}
+
+.slide.active { display: flex; }
+
+/* Subtle wood-plank texture overlay */
+.slide::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(90deg,
+      transparent 0px, transparent 80px,
+      rgba(0,0,0,0.10) 80px, rgba(0,0,0,0.10) 81px),
+    repeating-linear-gradient(0deg,
+      transparent 0px, transparent 6px,
+      rgba(255,200,140,0.015) 6px, rgba(255,200,140,0.015) 7px);
+  pointer-events: none;
+}
+
+/* Vignette over everything */
+.slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.45) 100%);
+  pointer-events: none;
+}
+
+/* Inner content sits above the textures */
+.slide-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===================== SLIDE 1 — TITLE ===================== */
+.slide-title {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.title-eyebrow {
+  font-family: var(--font-type);
+  font-size: 16px;
+  letter-spacing: 8px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+
+.title-eyebrow::before,
+.title-eyebrow::after {
+  content: " ✦ ";
+  color: var(--accent-bright);
+  margin: 0 12px;
+}
+
+.poster-title {
+  font-family: var(--font-display-2);
+  color: var(--accent-red);
+  text-shadow:
+    2px 2px 0px #1a0a04,
+    4px 4px 12px rgba(0,0,0,0.6);
+  line-height: 1.05;
+  margin-bottom: 32px;
+}
+
+.poster-row {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  font-size: 24px;
+  letter-spacing: 6px;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+  font-family: var(--font-type);
+  text-shadow: 1px 1px 0px #1a0a04;
+}
+.poster-row span { display: inline-block; width: 300px; text-align: center; }
+
+.poster-main {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  font-size: 96px;
+  letter-spacing: 4px;
+}
+.poster-main span { display: inline-block; width: 300px; text-align: center; }
+
+.poster-of-ai {
+  font-family: var(--font-display);
+  font-size: 110px;
+  color: var(--accent-bright);
+  margin-top: 28px;
+  letter-spacing: 6px;
+  text-shadow: 3px 3px 0px #1a0a04, 0 0 30px rgba(232,200,120,0.25);
+}
+
+.title-divider {
+  width: 60%;
+  max-width: 700px;
+  margin: 36px auto 28px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 18px;
+  letter-spacing: 2px;
+  position: relative;
+}
+.title-divider::before,
+.title-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent) 50%, transparent);
+}
+.title-divider span { padding: 0 24px; }
+
+.title-credits {
+  font-family: var(--font-type);
+  font-size: 18px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+}
+.title-credits .speaker {
+  display: block;
+  font-family: var(--font-display-2);
+  font-size: 32px;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  letter-spacing: 3px;
+}
+
+/* ===================== SLIDE 2 — HOWDY I'M JASON ===================== */
+.slide-howdy {
+  flex-direction: row;
+  align-items: center;
+  gap: 64px;
+  padding: 80px 100px;
+}
+
+.howdy-photo-wrap {
+  flex: 0 0 460px;
+  position: relative;
+  padding: 18px 18px 60px 18px;
+  background: #f0e2c2;
+  box-shadow:
+    0 20px 50px rgba(0,0,0,0.7),
+    inset 0 0 0 2px rgba(0,0,0,0.1);
+  transform: rotate(-2deg);
+}
+.howdy-photo-wrap::after {
+  content: "ETSU";
+  position: absolute;
+  bottom: 16px; left: 0; right: 0;
+  text-align: center;
+  font-family: var(--font-type);
+  color: #5a3818;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.howdy-photo {
+  width: 100%;
+  display: block;
+  filter: sepia(0.15) saturate(0.95);
+}
+
+.howdy-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.howdy-greeting {
+  font-family: var(--font-display);
+  font-size: 96px;
+  color: var(--accent-bright);
+  letter-spacing: 3px;
+  line-height: 1;
+  text-shadow: 3px 3px 0px #1a0a04;
+  margin-bottom: 8px;
+}
+.howdy-name {
+  font-family: var(--font-display-2);
+  font-size: 52px;
+  color: var(--text-primary);
+  letter-spacing: 4px;
+  margin-bottom: 36px;
+}
+.howdy-bullets {
+  list-style: none;
+  font-family: var(--font-type);
+  font-size: 22px;
+  line-height: 1.9;
+  color: var(--text-secondary);
+}
+.howdy-bullets li {
+  padding-left: 32px;
+  position: relative;
+}
+.howdy-bullets li::before {
+  content: "★";
+  position: absolute;
+  left: 0; top: 0;
+  color: var(--accent);
+}
+
+/* ===================== TIME-SAVED CHART SLIDE ===================== */
+.slide-saved {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 80px;
+}
+.saved-eyebrow {
+  font-family: var(--font-type);
+  font-size: 16px;
+  letter-spacing: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.saved-headline {
+  font-family: var(--font-display);
+  font-size: 132px;
+  color: var(--accent-bright);
+  line-height: 1;
+  letter-spacing: 4px;
+  margin-bottom: 10px;
+  text-shadow: 4px 4px 0px #1a0a04, 0 0 40px rgba(232,200,120,0.25);
+}
+.saved-sub {
+  font-family: var(--font-type);
+  font-size: 18px;
+  color: var(--text-secondary);
+  letter-spacing: 2px;
+  margin-bottom: 26px;
+}
+.saved-chart {
+  width: 100%;
+  max-width: 1080px;
+  padding: 20px 26px 16px;
+  background: rgba(20, 10, 4, 0.55);
+  border: 1px solid var(--border-soft);
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.45);
+}
+.saved-chart svg { width: 100%; height: auto; display: block; }
+.chart-grid { stroke: rgba(160,136,88,0.20); stroke-width: 1; }
+.chart-axis-label {
+  font-family: 'Special Elite', monospace;
+  font-size: 13px;
+  fill: var(--text-muted);
+  letter-spacing: 1px;
+}
+.chart-area { fill: rgba(232,200,120,0.14); }
+.chart-line {
+  fill: none;
+  stroke: var(--accent-bright);
+  stroke-width: 3;
+  filter: drop-shadow(0 0 6px rgba(232,200,120,0.35));
+}
+.chart-point {
+  fill: var(--bg-deep);
+  stroke: var(--accent-bright);
+  stroke-width: 2.5;
+}
+.chart-point.final {
+  fill: var(--accent-red);
+  stroke: var(--accent-bright);
+  stroke-width: 2.5;
+}
+
+/* ===================== SLIDE — WHAT IS AI? ===================== */
+.slide-whatis {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.whatis-headline {
+  font-family: var(--font-display);
+  font-size: 220px;
+  color: var(--accent-bright);
+  text-shadow: 6px 6px 0px #1a0a04, 0 0 50px rgba(232,200,120,0.25);
+  letter-spacing: 8px;
+  line-height: 1;
+  margin-bottom: 32px;
+}
+
+.whatis-prompt {
+  font-family: var(--font-display-2);
+  font-size: 56px;
+  color: var(--text-primary);
+  letter-spacing: 3px;
+  margin-bottom: 16px;
+}
+
+.whatis-sub {
+  font-family: var(--font-type);
+  font-size: 22px;
+  color: var(--text-secondary);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 36px;
+}
+
+.whatis-reveal {
+  margin-top: 24px;
+  padding: 28px 56px;
+  background: rgba(20, 10, 4, 0.6);
+  border: 2px solid var(--accent);
+  box-shadow: 0 0 40px rgba(232,200,120,0.15), inset 0 0 30px rgba(0,0,0,0.4);
+  max-width: 900px;
+  font-family: var(--font-body);
+  font-size: 28px;
+  color: var(--text-primary);
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(20px);
+}
+.whatis-reveal em {
+  color: var(--accent-bright);
+  font-family: var(--font-display-2);
+  font-style: normal;
+  font-size: 30px;
+}
+
+.whatis-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: var(--font-type);
+  font-size: 14px;
+  color: var(--text-muted);
+  letter-spacing: 2px;
+}
+
+/* ===================== SLIDE 4 — GOOD / BAD / UGLY SECTION ===================== */
+.slide-section {
+  flex-direction: row;
+  gap: 48px;
+  padding: 60px 80px;
+  align-items: center;
+}
+
+.section-poster-wrap {
+  flex: 0 0 480px;
+  padding: 14px;
+  background: #f0e2c2;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  transform: rotate(-1.5deg);
+}
+.section-poster-wrap img {
+  width: 100%;
+  display: block;
+}
+
+.section-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.section-eyebrow {
+  font-family: var(--font-type);
+  font-size: 16px;
+  letter-spacing: 6px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.section-headline {
+  font-family: var(--font-display-2);
+  font-size: 56px;
+  color: var(--text-primary);
+  line-height: 1.05;
+  letter-spacing: 2px;
+  margin-bottom: 28px;
+  text-shadow: 2px 2px 0px #1a0a04;
+}
+.section-headline .good { color: #6fa860; }
+.section-headline .bad { color: var(--accent); }
+.section-headline .ugly { color: var(--accent-red); }
+
+.section-tagline {
+  font-family: var(--font-type);
+  font-size: 22px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  letter-spacing: 1px;
+}
+
+/* ===================== SLIDE 8 — FUTURE / WESTWORLD ===================== */
+.future-poster-wrap {
+  flex: 0 0 380px;
+  max-height: 600px;
+  padding: 12px;
+  background: #f0e2c2;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  transform: rotate(1.5deg);
+}
+.future-poster-wrap img {
+  width: 100%;
+  display: block;
+  max-height: 576px;
+  object-fit: cover;
+}
+
+.future-quote {
+  margin-top: 24px;
+  font-family: var(--font-type);
+  font-size: 18px;
+  color: var(--accent-bright);
+  letter-spacing: 2px;
+  font-style: italic;
+  border-left: 3px solid var(--accent);
+  padding-left: 18px;
+}
+.future-quote .attribution {
+  display: block;
+  font-style: normal;
+  font-size: 13px;
+  color: var(--text-muted);
+  letter-spacing: 3px;
+  margin-top: 6px;
+  text-transform: uppercase;
+}
+
+/* ===================== SLIDES 5, 6, 7 — BULLET LISTS ===================== */
+.slide-list {
+  flex-direction: column;
+  align-items: center;
+  padding: 36px 100px 32px;
+}
+
+.list-eyebrow {
+  font-family: var(--font-type);
+  font-size: 16px;
+  letter-spacing: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.list-headline {
+  font-family: var(--font-display);
+  font-size: 104px;
+  letter-spacing: 6px;
+  line-height: 0.95;
+  margin-bottom: 4px;
+  text-shadow: 4px 4px 0px #1a0a04;
+  text-align: center;
+}
+.list-headline.good   { color: #e8c878; }
+.list-headline.bad    { color: var(--accent); }
+.list-headline.ugly   { color: var(--accent-red); }
+.list-headline.future { color: var(--accent-bright); }
+
+/* Closing slide */
+.slide-closer { align-items: center; justify-content: center; text-align: center; }
+.closer-eyebrow {
+  font-family: var(--font-type);
+  font-size: 16px;
+  letter-spacing: 10px;
+  color: var(--accent);
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.closer-headline {
+  font-family: var(--font-display);
+  font-size: 240px;
+  color: var(--accent-bright);
+  letter-spacing: 8px;
+  line-height: 1;
+  text-shadow: 6px 6px 0px #1a0a04, 0 0 60px rgba(232,200,120,0.3);
+  margin-bottom: 36px;
+}
+.closer-sub {
+  font-family: var(--font-display-2);
+  font-size: 56px;
+  color: var(--text-primary);
+  letter-spacing: 4px;
+}
+.closer-flourish {
+  margin-top: 40px;
+  width: 60%;
+  max-width: 600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 18px;
+  letter-spacing: 4px;
+}
+.closer-flourish::before,
+.closer-flourish::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent) 50%, transparent);
+}
+.closer-flourish span { padding: 0 24px; }
+
+.list-divider {
+  width: 50%;
+  max-width: 520px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+.list-divider::before,
+.list-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--accent) 50%, transparent);
+}
+.list-divider span { padding: 0 20px; color: var(--accent-bright); }
+
+.bullet-list {
+  list-style: none;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bullet-item {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 8px 24px;
+  background: rgba(20, 10, 4, 0.45);
+  border-left: 4px solid var(--accent);
+  font-family: var(--font-display-2);
+  font-size: 25px;
+  line-height: 1.2;
+  color: var(--text-primary);
+  letter-spacing: 1.5px;
+  opacity: 0;
+  transform: translateX(-40px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+}
+
+.bullet-list.good   .bullet-item   { border-left-color: #6fa860; }
+.bullet-list.bad    .bullet-item   { border-left-color: var(--accent); }
+.bullet-list.ugly   .bullet-item   { border-left-color: var(--accent-red); }
+.bullet-list.future .bullet-item   { border-left-color: var(--accent-bright); }
+
+.bullet-glyph {
+  flex: 0 0 36px;
+  font-size: 28px;
+  text-align: center;
+}
+.bullet-list.good   .bullet-glyph  { color: #6fa860; }
+.bullet-list.bad    .bullet-glyph  { color: var(--accent); }
+.bullet-list.ugly   .bullet-glyph  { color: var(--accent-red); }
+.bullet-list.future .bullet-glyph  { color: var(--accent-bright); }
+
+/* ===================== NAV CHROME (always visible) ===================== */
+.nav-bar {
+  position: absolute;
+  bottom: 16px;
+  left: 0; right: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  pointer-events: none;
+}
+.slide-counter {
+  font-family: var(--font-type);
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--text-muted);
+}
+.slide-dots {
+  display: flex;
+  gap: 8px;
+}
+.dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  opacity: 0.4;
+  cursor: pointer;
+  border: none;
+  padding: 0;
+  pointer-events: auto;
+  transition: all 0.3s;
+}
+.dot.active {
+  background: var(--accent-bright);
+  opacity: 1;
+  transform: scale(1.4);
+  box-shadow: 0 0 8px rgba(232,200,120,0.6);
+}
+
+.help-overlay {
+  position: absolute;
+  top: 16px; right: 24px;
+  z-index: 50;
+  font-family: var(--font-type);
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--text-muted);
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="slides-wrapper" id="slidesWrapper">
+
+  <!-- ============ SLIDE 1 — TITLE ============ -->
+  <section class="slide slide-title active" data-slide="1">
+    <div class="slide-content">
+      <div class="title-eyebrow">A Talk for Upward Bound</div>
+
+      <div class="poster-title">
+        <div class="poster-row">
+          <span>THE</span><span>THE</span><span>AND THE</span>
+        </div>
+        <div class="poster-main">
+          <span>GOOD</span><span>BAD</span><span>UGLY</span>
+        </div>
+        <div class="poster-of-ai">of A.I.</div>
+      </div>
+
+      <div class="title-divider"><span>✦  ✦  ✦</span></div>
+
+      <div class="title-credits">
+        <span class="speaker">Jason Horne</span>
+        Summer Academy &nbsp;·&nbsp; Tusculum University
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 2 — HOWDY ============ -->
+  <section class="slide slide-howdy" data-slide="2">
+    <div class="slide-content" style="flex-direction: row; align-items: center; gap: 64px;">
+      <div class="howdy-photo-wrap">
+        <img src="jason-photo.jpg" alt="Jason Horne" class="howdy-photo">
+      </div>
+      <div class="howdy-text">
+        <div class="howdy-greeting">Jason Horne</div>
+        <div class="howdy-name">Your speaker tonight.</div>
+        <ul class="howdy-bullets">
+          <li>Assistant Director of Schools, Greeneville City Schools</li>
+          <li>Adjunct Professor, ETSU</li>
+          <li>Dad, data nerd, AI enthusiast</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 3 — HOW I USE AI ============ -->
+  <section class="slide slide-list" data-slide="3">
+    <div class="slide-content" style="flex-direction: column; align-items: center;">
+      <div class="list-eyebrow">A Quick Show &amp; Tell</div>
+      <div class="list-headline future">How I Use AI.</div>
+      <div class="list-divider"><span>★  ★  ★</span></div>
+
+      <ul class="bullet-list future">
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Built this slideshow with AI</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Write a monthly AI newsletter for our teachers</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Analyze student data to make better decisions</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Draft emails, board memos, and reports</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Build little apps that automate boring work</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Coach for my writing and research</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 4 — REAL EXAMPLES FROM THIS WEEK ============ -->
+  <section class="slide slide-list" data-slide="4">
+    <div class="slide-content" style="flex-direction: column; align-items: center;">
+      <div class="list-eyebrow">A Closer Look</div>
+      <div class="list-headline future">Real Examples.</div>
+      <div class="list-divider"><span>just this week</span></div>
+
+      <ul class="bullet-list future">
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Built this whole slideshow in an afternoon</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Scouted the next team my kid's baseball squad plays</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Summarized 50 articles into one Saturday morning email</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Wrote a research report on something I knew nothing about</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Turned a one-hour meeting into a clean board memo</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Asked it to teach me a guitar song I love</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 5 — TIME SAVED ============ -->
+  <section class="slide slide-saved" data-slide="5">
+    <div class="slide-content" style="flex-direction: column; align-items: center; justify-content: center;">
+      <div class="saved-eyebrow">Roughly Speaking</div>
+      <div class="saved-headline">≈ 1,071 hours</div>
+      <div class="saved-sub">time saved with AI since March &nbsp;·&nbsp; about 27 forty-hour work-weeks</div>
+      <div class="saved-chart">
+        <svg viewBox="0 0 1000 340" xmlns="http://www.w3.org/2000/svg">
+          <!-- gridlines -->
+          <line class="chart-grid" x1="80" y1="30"  x2="970" y2="30" />
+          <line class="chart-grid" x1="80" y1="95"  x2="970" y2="95" />
+          <line class="chart-grid" x1="80" y1="160" x2="970" y2="160" />
+          <line class="chart-grid" x1="80" y1="225" x2="970" y2="225" />
+          <line class="chart-grid" x1="80" y1="290" x2="970" y2="290" />
+
+          <!-- y-axis labels -->
+          <text class="chart-axis-label" x="70" y="34"  text-anchor="end">1,250</text>
+          <text class="chart-axis-label" x="70" y="99"  text-anchor="end">937</text>
+          <text class="chart-axis-label" x="70" y="164" text-anchor="end">625</text>
+          <text class="chart-axis-label" x="70" y="229" text-anchor="end">312</text>
+          <text class="chart-axis-label" x="70" y="294" text-anchor="end">0</text>
+
+          <!-- area fill under the line -->
+          <path class="chart-area"
+                d="M 89,273 L 178,251 L 267,225 L 356,215 L 445,199 L 534,160 L 623,129 L 712,119 L 801,105 L 890,88 L 970,67 L 970,290 L 89,290 Z" />
+
+          <!-- the line -->
+          <path class="chart-line"
+                d="M 89,273 L 178,251 L 267,225 L 356,215 L 445,199 L 534,160 L 623,129 L 712,119 L 801,105 L 890,88 L 970,67" />
+
+          <!-- data points -->
+          <circle class="chart-point" cx="89"  cy="273" r="5" />
+          <circle class="chart-point" cx="178" cy="251" r="5" />
+          <circle class="chart-point" cx="267" cy="225" r="5" />
+          <circle class="chart-point" cx="356" cy="215" r="5" />
+          <circle class="chart-point" cx="445" cy="199" r="5" />
+          <circle class="chart-point" cx="534" cy="160" r="5" />
+          <circle class="chart-point" cx="623" cy="129" r="5" />
+          <circle class="chart-point" cx="712" cy="119" r="5" />
+          <circle class="chart-point" cx="801" cy="105" r="5" />
+          <circle class="chart-point" cx="890" cy="88"  r="5" />
+          <circle class="chart-point final" cx="970" cy="67"  r="7" />
+
+          <!-- x-axis labels -->
+          <text class="chart-axis-label" x="89"  y="315" text-anchor="middle">3/7</text>
+          <text class="chart-axis-label" x="178" y="315" text-anchor="middle">3/14</text>
+          <text class="chart-axis-label" x="267" y="315" text-anchor="middle">3/23</text>
+          <text class="chart-axis-label" x="356" y="315" text-anchor="middle">3/30</text>
+          <text class="chart-axis-label" x="445" y="315" text-anchor="middle">4/6</text>
+          <text class="chart-axis-label" x="534" y="315" text-anchor="middle">4/13</text>
+          <text class="chart-axis-label" x="623" y="315" text-anchor="middle">4/20</text>
+          <text class="chart-axis-label" x="712" y="315" text-anchor="middle">4/27</text>
+          <text class="chart-axis-label" x="801" y="315" text-anchor="middle">5/4</text>
+          <text class="chart-axis-label" x="890" y="315" text-anchor="middle">5/11</text>
+          <text class="chart-axis-label" x="970" y="315" text-anchor="middle">5/18</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 6 — WHAT IS AI? ============ -->
+  <section class="slide slide-whatis" data-slide="6">
+    <div class="slide-content" style="align-items: center; justify-content: center; text-align: center;">
+      <div class="whatis-headline">What is AI?</div>
+      <div class="whatis-prompt">What's your take?</div>
+      <div class="whatis-sub">★  ★  ★</div>
+      <div class="whatis-reveal" id="whatisReveal">
+        Software that <em>learns patterns from data</em>, instead of being told exactly what to do.
+      </div>
+      <div class="whatis-hint">Press → to reveal a definition after the discussion</div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 7 — GOOD / BAD / UGLY SECTION ============ -->
+  <section class="slide slide-section" data-slide="7">
+    <div class="slide-content" style="flex-direction: row; gap: 48px; align-items: center;">
+      <div class="section-poster-wrap">
+        <img src="gbu-poster.jpg" alt="The Good, the Bad, and the Ugly movie poster">
+      </div>
+      <div class="section-right">
+        <div class="section-eyebrow">Three Sides of the Same Six-Shooter</div>
+        <div class="section-headline">
+          <span class="good">The Good.</span><br>
+          <span class="bad">The Bad.</span><br>
+          <span class="ugly">The Ugly.</span>
+        </div>
+        <div class="section-tagline">
+          Same tool. Different hands. Different outcomes.<br>
+          Three rounds. One per side.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 8 — THE GOOD ============ -->
+  <section class="slide slide-list" data-slide="8">
+    <div class="slide-content" style="flex-direction: column; align-items: center;">
+      <div class="list-eyebrow">Round One</div>
+      <div class="list-headline good">The Good</div>
+      <div class="list-divider"><span>★  ★  ★</span></div>
+
+      <ul class="bullet-list good">
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">★</span>Saves time and money</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">★</span>Build an app instead of finding one</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">★</span>Works in any language</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">★</span>Smarter than a Google search</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">★</span>Tutor in your pocket</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 9 — THE BAD ============ -->
+  <section class="slide slide-list" data-slide="9">
+    <div class="slide-content" style="flex-direction: column; align-items: center;">
+      <div class="list-eyebrow">Round Two</div>
+      <div class="list-headline bad">The Bad</div>
+      <div class="list-divider"><span>◆  ◆  ◆</span></div>
+
+      <ul class="bullet-list bad">
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">◆</span>Dependence</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">◆</span>Loss of cognitive skills</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">◆</span>Bias baked in</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">◆</span>Hallucinations</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">◆</span>Wrong with confidence</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">◆</span>AI slop</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 10 — THE UGLY ============ -->
+  <section class="slide slide-list" data-slide="10">
+    <div class="slide-content" style="flex-direction: column; align-items: center;">
+      <div class="list-eyebrow">Round Three</div>
+      <div class="list-headline ugly">The Ugly</div>
+      <div class="list-divider"><span>†  †  †</span></div>
+
+      <ul class="bullet-list ugly">
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">†</span>Environmental cost</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">†</span>Cheating</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">†</span>Weapons and war</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">†</span>Scammers and hackers</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">†</span>Deepfakes</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 11 — WHAT DOES THE FUTURE HOLD? ============ -->
+  <section class="slide slide-section" data-slide="11">
+    <div class="slide-content" style="flex-direction: row; gap: 56px; align-items: center;">
+      <div class="section-right">
+        <div class="section-eyebrow">What's Next</div>
+        <div class="section-headline">
+          What Does the<br>
+          <span class="ugly">Future</span> Hold?
+        </div>
+        <div class="section-tagline">
+          The good, bad, and ugly are all already here.<br>
+          What we get next depends on who's holding the reins.
+        </div>
+        <div class="future-quote">
+          "Free will is not free."
+          <span class="attribution">Westworld</span>
+        </div>
+      </div>
+      <div class="future-poster-wrap">
+        <img src="westworld.jpg" alt="Westworld poster — Free will is not free">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 12 — IT'S IN EVERY FIELD ============ -->
+  <section class="slide slide-list" data-slide="12">
+    <div class="slide-content" style="flex-direction: column; align-items: center;">
+      <div class="list-eyebrow">Round Four</div>
+      <div class="list-headline future">Every Field.</div>
+      <div class="list-divider"><span>✦  ✦  ✦</span></div>
+
+      <ul class="bullet-list future">
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Doctors use it</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Lawyers use it</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Designers use it</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Farmers use it</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Teachers use it</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>You will too</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 13 — WHAT AI CAN'T DO ============ -->
+  <section class="slide slide-list" data-slide="13">
+    <div class="slide-content" style="flex-direction: column; align-items: center;">
+      <div class="list-eyebrow">Round Five</div>
+      <div class="list-headline future">What AI Can't Do.</div>
+      <div class="list-divider"><span>(yet.)</span></div>
+
+      <ul class="bullet-list future">
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Ask the right question</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Spot when it's wrong</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Care about the answer</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Earn someone's trust</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Make a judgment call</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 14 — HANDS-ON TRADES (CTE) ============ -->
+  <section class="slide slide-list" data-slide="14">
+    <div class="slide-content" style="flex-direction: column; align-items: center;">
+      <div class="list-eyebrow">Round Six &nbsp;·&nbsp; For Now</div>
+      <div class="list-headline future">AI Can't Hold a Wrench.</div>
+      <div class="list-divider"><span>✦  ✦  ✦</span></div>
+
+      <ul class="bullet-list future">
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Welding</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Auto repair</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Cosmetology</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>HVAC and electrical</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Construction</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>AI-assisted, not AI-replaced</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 15 — START HERE / AI LEARNING PLAN ============ -->
+  <section class="slide slide-list" data-slide="15">
+    <div class="slide-content" style="flex-direction: column; align-items: center;">
+      <div class="list-eyebrow">Round Seven &nbsp;·&nbsp; Your AI Learning Plan</div>
+      <div class="list-headline future">Start Here.</div>
+      <div class="list-divider"><span>all free</span></div>
+
+      <ul class="bullet-list future">
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>ChatGPT</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Google Gemini</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Claude</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>NotebookLM (your study sidekick)</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Try them all. Pick your favorite.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 16 — GENIE IN A BOTTLE ============ -->
+  <section class="slide slide-list" data-slide="16">
+    <div class="slide-content" style="flex-direction: column; align-items: center;">
+      <div class="list-eyebrow">Round Eight</div>
+      <div class="list-headline future">Genie in a Bottle.</div>
+      <div class="list-divider"><span>make a wish · build it</span></div>
+
+      <ul class="bullet-list future">
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>I wish I had a tutor for chemistry</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>I wish I had help with my college essay</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>I wish I had a workout plan for my sport</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>I wish I had a recipe from what's in my fridge</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>I wish I had a study guide for tomorrow</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Now go build it.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 17 — YOUR MOVE ============ -->
+  <section class="slide slide-list" data-slide="17">
+    <div class="slide-content" style="flex-direction: column; align-items: center;">
+      <div class="list-eyebrow">Round Nine</div>
+      <div class="list-headline future">Your Move.</div>
+      <div class="list-divider"><span>✦  ✦  ✦</span></div>
+
+      <ul class="bullet-list future">
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Use it like a tutor</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Try it on your hardest class</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Don't let it think for you</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Learn faster than anyone else</li>
+        <li class="bullet-item reveal-item"><span class="bullet-glyph">✦</span>Build what you'd want to use</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 18 — QUESTIONS? ============ -->
+  <section class="slide slide-closer" data-slide="18">
+    <div class="slide-content" style="align-items: center; justify-content: center; text-align: center;">
+      <div class="closer-eyebrow">The Last Round</div>
+      <div class="closer-headline">Questions?</div>
+      <div class="closer-sub">Let's talk.</div>
+      <div class="closer-flourish"><span>✦  ✦  ✦</span></div>
+    </div>
+  </section>
+
+  <!-- nav -->
+  <div class="nav-bar">
+    <div class="slide-counter" id="slideCounter">1 / 7</div>
+    <div class="slide-dots" id="slideDots"></div>
+  </div>
+  <div class="help-overlay">→ next  ·  ← back  ·  F fullscreen</div>
+
+</div>
+
+<script>
+// ===================== VIEWPORT SCALING =====================
+// All slides authored at 1280x720; scaled to fit any viewport.
+const SLIDE_W = 1280;
+const SLIDE_H = 720;
+const slidesWrapper = document.getElementById('slidesWrapper');
+
+function scaleToViewport() {
+  const scaleX = window.innerWidth / SLIDE_W;
+  const scaleY = window.innerHeight / SLIDE_H;
+  const scale = Math.min(scaleX, scaleY);
+  const offsetX = (window.innerWidth - SLIDE_W * scale) / 2;
+  const offsetY = (window.innerHeight - SLIDE_H * scale) / 2;
+  slidesWrapper.style.transform = `scale(${scale})`;
+  slidesWrapper.style.transformOrigin = '0 0';
+  slidesWrapper.style.left = offsetX + 'px';
+  slidesWrapper.style.top = offsetY + 'px';
+}
+window.addEventListener('resize', scaleToViewport);
+document.addEventListener('fullscreenchange', scaleToViewport);
+scaleToViewport();
+
+// ===================== NAVIGATION + REVEAL LOGIC =====================
+const slides = document.querySelectorAll('.slide');
+const totalSlides = slides.length;
+let currentIndex = 0;
+
+// Track reveal state per slide: how many .reveal-item are visible.
+// Special slides (3 = "What is AI?") use revealStates[2] to track the single definition reveal.
+const revealStates = new Array(totalSlides).fill(0);
+
+const counter = document.getElementById('slideCounter');
+const dotsNav = document.getElementById('slideDots');
+const whatisReveal = document.getElementById('whatisReveal');
+
+// Build dots
+slides.forEach((_, i) => {
+  const dot = document.createElement('button');
+  dot.className = 'dot' + (i === 0 ? ' active' : '');
+  dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+  dot.addEventListener('click', (e) => { e.stopPropagation(); goToSlide(i); });
+  dotsNav.appendChild(dot);
+});
+
+function updateChrome() {
+  counter.textContent = `${currentIndex + 1} / ${totalSlides}`;
+  document.querySelectorAll('.dot').forEach((d, i) =>
+    d.classList.toggle('active', i === currentIndex));
+}
+
+function goToSlide(targetIndex) {
+  if (targetIndex < 0 || targetIndex >= totalSlides) return;
+  if (targetIndex === currentIndex) return;
+
+  slides[currentIndex].classList.remove('active');
+  currentIndex = targetIndex;
+  slides[currentIndex].classList.add('active');
+
+  // Animate slide entry
+  const slide = slides[currentIndex];
+  gsap.fromTo(slide,
+    { opacity: 0 },
+    { opacity: 1, duration: 0.5, ease: 'power2.out' }
+  );
+
+  // Restore reveal state for this slide (in case we're coming back to it).
+  applyRevealState(currentIndex);
+  updateChrome();
+}
+
+function applyRevealState(slideIndex) {
+  const slide = slides[slideIndex];
+  const reveals = slide.querySelectorAll('.reveal-item');
+  const state = revealStates[slideIndex];
+
+  reveals.forEach((el, i) => {
+    if (i < state) {
+      gsap.set(el, { opacity: 1, x: 0 });
+    } else {
+      gsap.set(el, { opacity: 0, x: -40 });
+    }
+  });
+
+  // Slide 6 ("What is AI?") special reveal (definition box)
+  if (slideIndex === 5 && whatisReveal) {
+    if (state >= 1) gsap.set(whatisReveal, { opacity: 1, y: 0 });
+    else gsap.set(whatisReveal, { opacity: 0, y: 20 });
+  }
+}
+
+function getMaxReveals(slideIndex) {
+  const slide = slides[slideIndex];
+  const reveals = slide.querySelectorAll('.reveal-item');
+  if (slideIndex === 5) return 1; // What is AI? has one reveal (the definition)
+  return reveals.length;
+}
+
+function next() {
+  const slide = slides[currentIndex];
+  const reveals = slide.querySelectorAll('.reveal-item');
+  const maxReveals = getMaxReveals(currentIndex);
+  const currentRevealed = revealStates[currentIndex];
+
+  // "What is AI?" special-case: reveal the definition
+  if (currentIndex === 5 && currentRevealed < 1) {
+    gsap.to(whatisReveal, { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' });
+    revealStates[currentIndex] = 1;
+    return;
+  }
+
+  // Standard reveal-item flow
+  if (currentRevealed < maxReveals) {
+    const item = reveals[currentRevealed];
+    if (item) {
+      gsap.to(item, {
+        opacity: 1, x: 0,
+        duration: 0.55, ease: 'power2.out'
+      });
+    }
+    revealStates[currentIndex] = currentRevealed + 1;
+    return;
+  }
+
+  // All revealed — advance to next slide
+  if (currentIndex < totalSlides - 1) {
+    goToSlide(currentIndex + 1);
+  }
+}
+
+function prev() {
+  const slide = slides[currentIndex];
+  const reveals = slide.querySelectorAll('.reveal-item');
+  const currentRevealed = revealStates[currentIndex];
+
+  if (currentRevealed > 0) {
+    // Un-reveal the last item
+    if (currentIndex === 5 && currentRevealed === 1) {
+      gsap.to(whatisReveal, { opacity: 0, y: 20, duration: 0.35 });
+    } else {
+      const item = reveals[currentRevealed - 1];
+      if (item) gsap.to(item, { opacity: 0, x: -40, duration: 0.35 });
+    }
+    revealStates[currentIndex] = currentRevealed - 1;
+    return;
+  }
+
+  if (currentIndex > 0) goToSlide(currentIndex - 1);
+}
+
+// ===================== INPUT HANDLERS =====================
+// Keyboard
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+    e.preventDefault(); next();
+  } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+    e.preventDefault(); prev();
+  } else if (e.key === 'f' || e.key === 'F') {
+    toggleFullscreen();
+  } else if (e.key === 'Home') {
+    goToSlide(0);
+  } else if (e.key === 'End') {
+    goToSlide(totalSlides - 1);
+  }
+});
+
+// Click — left half = back, right half = forward (ignore dots/buttons)
+document.addEventListener('click', (e) => {
+  if (e.target.closest('button, a, input, [data-no-nav]')) return;
+  if (e.clientX > window.innerWidth / 2) next();
+  else prev();
+});
+
+// Touch / swipe
+let touchStartX = 0;
+document.addEventListener('touchstart', (e) => {
+  touchStartX = e.touches[0].clientX;
+}, { passive: true });
+document.addEventListener('touchend', (e) => {
+  const delta = touchStartX - e.changedTouches[0].clientX;
+  if (Math.abs(delta) > 50) delta > 0 ? next() : prev();
+}, { passive: true });
+
+// Fullscreen toggle
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+// ===================== INITIAL STATE =====================
+// Hide all reveal items on load
+slides.forEach((_, i) => applyRevealState(i));
+updateChrome();
+
+// First-load fade-in
+gsap.from('.slide.active', { opacity: 0, duration: 0.8, ease: 'power2.out' });
+</script>
+</body>
+</html>

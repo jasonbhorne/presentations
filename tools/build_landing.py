@@ -1,4 +1,24 @@
-<!DOCTYPE html>
+#!/usr/bin/env python3
+"""Regenerate the root index.html (landing page) from presentations.json.
+
+Cards are grouped by category. Interactive decks get a badge. Run:
+    python3 tools/build_landing.py
+"""
+import html
+import json
+import os
+
+REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MANIFEST = os.path.join(REPO, "presentations.json")
+
+# Section order + display headings.
+CATEGORY_ORDER = [
+    ("interactive", "Interactive talks"),
+    ("ai", "AI &amp; technology"),
+    ("other", "Other talks"),
+]
+
+HEAD = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -36,21 +56,46 @@ footer a { color:var(--accent); text-decoration:none; }
   <h1>Jason Horne</h1>
   <p class="sub">Interactive talks and slide decks on AI, education, and school operations. Open any presentation, then use arrow keys, click, or swipe to advance.</p>
   <div class="rule"></div>
+"""
 
-  <section>
-    <div class="sectionhead">AI &amp; technology</div>
-    <div class="grid">
-    <a class="card" href="./screentime/"><span class="badge">Interactive</span><h2>Screentime: What the Research Is Actually Saying</h2><p>What the evidence says about screens and learning. It is the type of use, not the total time. Built for the WSCC Literacy Conference.</p><span class="go">Open &rarr;</span></a>
-    <a class="card" href="./claude-code-for-administrators/"><span class="badge">Interactive</span><h2>Claude Code for Administrators</h2><p>Using AI agents to run real district operations work, from data pipelines to reporting.</p><span class="go">Open &rarr;</span></a>
-    <a class="card" href="./upward-bound-ai/"><span class="badge">Interactive</span><h2>AI for Upward Bound</h2><p>An AI talk for the Upward Bound / UBMS Summer Academy: what these tools are, and how to use them well.</p><span class="go">Open &rarr;</span></a>
-    <a class="card" href="./ai-usage-keynote/"><h2>AI Usage Keynote</h2><p>How AI is actually being used in schools and the workplace, and where it is headed.</p><span class="go">Open &rarr;</span></a>
-    <a class="card" href="./ai-and-jobs/"><h2>AI and the Future of Jobs</h2><p>What AI means for work, careers, and the skills students will need.</p><span class="go">Open &rarr;</span></a>
-    <a class="card" href="./ai-teaching-use-cases/"><h2>AI Teaching Use Cases</h2><p>Practical, classroom-ready ways teachers can put AI to work.</p><span class="go">Open &rarr;</span></a>
-    <a class="card" href="./digital-citizenship/"><h2>Empowering Digital Citizenship</h2><p>Helping students navigate technology, online life, and AI responsibly.</p><span class="go">Open &rarr;</span></a>
-    <a class="card" href="./chatgpt-in-education/"><h2>ChatGPT in Education</h2><p>An early look at generative AI for educators, presented for the TETA Summer Institute.</p><span class="go">Open &rarr;</span></a>
-    <a class="card" href="./techblitz-2025-keynote/"><h2>TechBlitz 2025 Keynote</h2><p>Keynote for the TechBlitz 2025 educational technology event.</p><span class="go">Open &rarr;</span></a>
-    </div>
-  </section>
-  <footer>Dr. Jason Horne &middot; Greeneville City Schools &middot; <a href="https://jasonhorne.org">jasonhorne.org</a></footer>
+FOOT = """  <footer>Dr. Jason Horne &middot; Greeneville City Schools &middot; <a href="https://jasonhorne.org">jasonhorne.org</a></footer>
 </body>
 </html>
+"""
+
+
+def card(entry):
+    title = html.escape(entry["title"])
+    blurb = html.escape(entry.get("blurb", ""))
+    slug = entry["slug"]
+    badge = '<span class="badge">Interactive</span>' if entry.get("type") == "interactive" else ""
+    return (
+        f'    <a class="card" href="./{slug}/">{badge}'
+        f'<h2>{title}</h2><p>{blurb}</p>'
+        f'<span class="go">Open &rarr;</span></a>'
+    )
+
+
+def main():
+    with open(MANIFEST) as f:
+        manifest = json.load(f)
+
+    parts = [HEAD]
+    for cat_key, cat_label in CATEGORY_ORDER:
+        items = [e for e in manifest if e.get("category") == cat_key]
+        if not items:
+            continue
+        parts.append(f'  <section>\n    <div class="sectionhead">{cat_label}</div>\n    <div class="grid">')
+        for e in items:
+            parts.append(card(e))
+        parts.append("    </div>\n  </section>")
+    parts.append(FOOT)
+
+    out = os.path.join(REPO, "index.html")
+    with open(out, "w") as f:
+        f.write("\n".join(parts))
+    print(f"built index.html ({len(manifest)} decks)")
+
+
+if __name__ == "__main__":
+    main()
