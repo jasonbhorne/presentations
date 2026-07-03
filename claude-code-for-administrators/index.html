@@ -177,6 +177,18 @@ strong { color: var(--text-primary); font-weight: 600; }
 .placeholder .ph-sub { font-size: 14px; }
 .proof .caption-line { margin-top: 18px; font-size: 17px; color: var(--text-secondary); max-width: 1000px; }
 
+/* === Live dashboards launchpad === */
+.dash-grid { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 22px; min-height: 0; }
+.dash-card { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 16px 40px rgba(20,20,19,0.16); transition: transform 0.18s ease, box-shadow 0.18s ease; }
+.dash-card:hover { transform: translateY(-4px); box-shadow: 0 24px 56px rgba(204,120,92,0.26); border-color: var(--accent); }
+.dash-card .shot { flex: 1; min-height: 0; overflow: hidden; background: #1d1d1d; display: flex; align-items: flex-start; justify-content: center; }
+.dash-card .shot img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+.dash-card .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 16px 20px; border-top: 1px solid var(--border); }
+.dash-card .bar .t { font-family: var(--font-display); font-size: 21px; font-weight: 600; }
+.dash-card .bar .t small { display: block; font-family: var(--font-body); font-size: 13px; font-weight: 400; color: var(--text-secondary); margin-top: 2px; }
+.dash-card .go { flex-shrink: 0; font-size: 14px; font-weight: 600; color: #fff; background: var(--accent); padding: 8px 16px; border-radius: 999px; white-space: nowrap; }
+.dash-card:hover .go { background: var(--accent-deep); }
+
 /* === Close slide === */
 .close-slide { justify-content: center; }
 .close-slide h2 { font-size: 70px; }
@@ -257,6 +269,32 @@ strong { color: var(--text-primary); font-weight: 600; }
     </div>
   </section>
 
+  <!-- ============ SLIDE 5.5: WHY THE COMMAND LINE ============ -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal>Under the Hood</div>
+    <h2 data-reveal>Why the <span class="accent">command line?</span></h2>
+    <p class="lead" data-reveal style="margin-top:18px; max-width:940px;">Two ways to tell a computer what to do. One was built for us; the other is the direct line to the machine.</p>
+    <div class="compare">
+      <div class="card chatbot" data-reveal>
+        <div class="label">The GUI &mdash; what you click</div>
+        <ul>
+          <li>Windows, buttons, a mouse to drag and point</li>
+          <li>Built for humans; every action is a click someone makes</li>
+          <li>To automate it, software has to fake a mouse hunting for buttons</li>
+        </ul>
+      </div>
+      <div class="card cc" data-reveal>
+        <div class="label">The CLI &mdash; what you type</div>
+        <ul>
+          <li>Typed commands in the terminal, a thin text layer over the OS</li>
+          <li>Closer to the machine, and the layer software actually automates</li>
+          <li>An AI agent types the same commands a programmer would</li>
+        </ul>
+      </div>
+    </div>
+    <div class="caption-line" data-reveal style="margin-top:20px; max-width:1040px;">This is the leap PCs made going from MS-DOS to Windows in the early '90s: typed commands gave way to clicking, because clicking was easier for people. Claude Code brings the direct, typed control back, no faked mouse clicks, and now you drive it in plain English.</div>
+  </section>
+
   <!-- ============ SLIDE 6: HOW IT'S DIFFERENT ============ -->
   <section class="slide">
     <div class="eyebrow" data-reveal>How It's Different</div>
@@ -276,6 +314,31 @@ strong { color: var(--text-primary); font-weight: 600; }
           <li>It works directly on your real files</li>
           <li>It runs the task from start to finish</li>
           <li>It remembers your context and builds over time</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SLIDE 6.5: IS IT SAFE ============ -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal>Before We Go Further</div>
+    <h2 data-reveal>Is it safe? <span class="accent">Two controls</span> do the work.</h2>
+    <p class="lead" data-reveal style="margin-top:18px; max-width:900px;">The tool is permission-gated and runs on my own machine, so nothing happens without my say-so. But what actually keeps district data safe is two things I do, not something the tool does for me.</p>
+    <div class="compare">
+      <div class="card cc" data-reveal>
+        <div class="label">I use a paid business account</div>
+        <ul>
+          <li>Business-tier usage is not used to train the model</li>
+          <li>The risky version is a personal, free account</li>
+          <li>Staff should never use personal logins for district work</li>
+        </ul>
+      </div>
+      <div class="card cc" data-reveal>
+        <div class="label">I de-identify before it goes in</div>
+        <ul>
+          <li>No student names, no PII</li>
+          <li>I work with counts and role labels</li>
+          <li>Sensitive data gets stripped before the tool ever sees it</li>
         </ul>
       </div>
     </div>
@@ -333,6 +396,56 @@ strong { color: var(--text-primary); font-weight: 600; }
     <div class="caption-line" data-reveal>Scorecards, vendor bids, a state-funding reconciliation, a meal-cost comparison. Real operations, with the hours saved on each.</div>
   </section>
 
+  <!-- ============ RESEARCH SHELF ============ -->
+  <section class="slide proof">
+    <div class="head">
+      <h2 data-reveal>A research library that builds itself.</h2>
+    </div>
+    <div class="screenshot-wrap" data-reveal style="background:var(--surface-alt); max-height:470px;">
+      <img src="images/research-shelf.png" alt="The Research Shelf: dozens of deep-dive research reports built with Claude">
+    </div>
+    <div class="caption-line" data-reveal>Deep dives on the questions that cross my desk, from through-year testing to screen time. Each one researched, written, and published to <a href="https://jasonbhorne.github.io/research-shelf/" target="_blank" rel="noopener" style="color:var(--accent-deep);">jasonhorne.org/research</a> without me formatting a thing.</div>
+  </section>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section class="slide proof">
+    <div class="head">
+      <h2 data-reveal>A monthly newsletter for our staff.</h2>
+    </div>
+    <div class="screenshot-wrap" data-reveal style="background:var(--surface-alt); max-height:470px;">
+      <img src="images/newsletter.png" alt="GCS AI Newsletter archive, twenty monthly issues">
+    </div>
+    <div class="caption-line" data-reveal>Twenty issues and counting. Claude Code drafts each month's plain-language AI roundup for district staff and posts it to a self-updating archive.</div>
+  </section>
+
+  <!-- ============ PRESENTATIONS SITE (meta) ============ -->
+  <section class="slide proof">
+    <div class="head">
+      <h2 data-reveal>Even this talk.</h2>
+    </div>
+    <div class="screenshot-wrap" data-reveal style="background:var(--surface-alt); max-height:470px;">
+      <img src="images/presentations-site.png" alt="Jason Horne presentations site, a library of interactive AI and education decks">
+    </div>
+    <div class="caption-line" data-reveal>This deck was built with Claude Code, and it lives on a site full of others just like it. The tool made the thing you're looking at right now.</div>
+  </section>
+
+  <!-- ============ RFPs / PURCHASING ============ -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal>Purchasing</div>
+    <h2 data-reveal>Five vendor bids in.<br><span class="accent">One scored matrix out.</span></h2>
+    <div class="rule" data-reveal></div>
+    <p class="lead" data-reveal style="max-width:960px;">Drop the proposal PDFs in, name the criteria, and Claude Code reads every bid, pulls the numbers, and lines them up in a single comparison, scored and ready to defend. Copy paper to E-Rate.</p>
+  </section>
+
+  <!-- ============ HIRING ============ -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal>Hiring</div>
+    <h2 data-reveal>A stack of applications to a <span class="accent">ranked shortlist.</span></h2>
+    <div class="rule" data-reveal></div>
+    <p class="lead" data-reveal style="max-width:960px;">For an open role, Claude Code reads every application against the minimum qualifications, flags who meets them, and ranks the field on a rubric I set. Hours of screening, done before the first interview.</p>
+    <p data-reveal style="max-width:960px; margin-top:16px; font-size:22px;">Aggregates and rubric scores only. No applicant names leave the room.</p>
+  </section>
+
   <!-- ============ SLIDE 9d: OBSIDIAN — INSTITUTIONAL MEMORY ============ -->
   <section class="slide proof">
     <div class="head">
@@ -342,6 +455,16 @@ strong { color: var(--text-primary); font-weight: 600; }
       <img src="images/obsidian-graph.png" alt="Obsidian knowledge graph: hundreds of linked notes from sessions, projects, and analyses">
     </div>
     <div class="caption-line" data-reveal>Every session, memo, and analysis Claude Code runs gets logged here and linked. Hundreds of connected notes &mdash; the institutional memory our whole operation runs on.</div>
+    <div class="caption-line" data-reveal style="margin-top:10px;">In AI terms this is a <span class="accent">RAG</span> &mdash; retrieval-augmented generation. Plain version: before it answers, Claude Code searches this vault and pulls in what's relevant, so it reasons from our real history instead of guessing.</div>
+  </section>
+
+  <!-- ============ HONESTY: HOW I STARTED ============ -->
+  <section class="slide">
+    <div class="eyebrow" data-reveal>Before You Ask</div>
+    <h2 data-reveal>You don't need to be a programmer.</h2>
+    <div class="rule" data-reveal></div>
+    <p class="lead" data-reveal style="max-width:960px;">I started in March with one task, in plain English, and got it wrong a few times before it clicked. No install marathon, no computer science course. You describe what you want, watch it work, and correct it when it drifts.</p>
+    <p data-reveal style="max-width:960px; margin-top:16px; font-size:22px;">For the price of a software subscription and a few minutes a day, everything you just saw grew from there, one real job at a time.</p>
   </section>
 
   <!-- ============ SLIDE 10: CURATION ============ -->
@@ -377,6 +500,24 @@ strong { color: var(--text-primary); font-weight: 600; }
     <div class="eyebrow" data-reveal>Where to Begin</div>
     <h2 data-reveal>Start small. Curate over time.</h2>
     <div class="contact" data-reveal><strong>Jason Horne, Ed.D.</strong> &nbsp;·&nbsp; jasonhorne.org &nbsp;·&nbsp; Greeneville City Schools</div>
+  </section>
+
+  <!-- ============ SLIDE 14: LIVE DASHBOARDS (demo launchpad) ============ -->
+  <section class="slide proof">
+    <div class="head">
+      <h2 data-reveal>And it all feeds live dashboards.</h2>
+    </div>
+    <div class="dash-grid" data-reveal>
+      <a class="dash-card" href="https://gcs-data-dashboard.pages.dev/" target="_blank" rel="noopener">
+        <div class="shot"><img src="images/data-dashboard.png" alt="GCS Multi-Year Accountability Data Dashboard: proficiency, TVAAS growth, letter grades, and TN comparisons"></div>
+        <div class="bar"><div class="t">Accountability<small>Grades, TVAAS, proficiency, TN ranks</small></div><span class="go">Open live &rarr;</span></div>
+      </a>
+      <a class="dash-card" href="https://gcs-ops-dashboard.pages.dev/#summary" target="_blank" rel="noopener">
+        <div class="shot"><img src="images/ops-dashboard.png" style="object-position: top left;" alt="GCS Operations Dashboard: enrollment, ADM/ADA, withdrawals, health scores, TISA"></div>
+        <div class="bar"><div class="t">Operations<small>Enrollment, ADM, TISA, health scores</small></div><span class="go">Open live &rarr;</span></div>
+      </a>
+    </div>
+    <div class="caption-line" data-reveal>Two live sites, rebuilt from the data Claude Code processes. Aggregates only, no student names. Click either to open the real thing.</div>
   </section>
 
 </div>
