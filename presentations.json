@@ -1,5 +1,12 @@
 [
   {
+    "slug": "daniel-boone-ai-pd",
+    "title": "AI in the Classroom",
+    "blurb": "Faculty in-service for Daniel Boone High School: the free tools worth using Monday, what to do about cheating, and why assignment design beats detection.",
+    "category": "ai",
+    "type": "interactive"
+  },
+  {
     "slug": "screentime",
     "title": "Screentime: What the Research Is Actually Saying",
     "blurb": "What the evidence says about screens and learning. It is the type of use, not the total time. Built for the WSCC Literacy Conference.",
