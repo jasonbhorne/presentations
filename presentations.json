@@ -1,5 +1,19 @@
 [
   {
+    "slug": "elizabethton-ai-secondary",
+    "title": "AI in the Classroom (6-12)",
+    "blurb": "Professional development for Elizabethton City Schools secondary faculty: the tools worth using Monday, what to do about cheating, and why assignment design beats detection.",
+    "category": "ai",
+    "type": "interactive"
+  },
+  {
+    "slug": "elizabethton-ai-elementary",
+    "title": "AI in the Elementary Classroom",
+    "blurb": "Professional development for Elizabethton City Schools Pre-K-5 faculty: buying back your planning period, the under-13 problem, and the part of the job AI cannot do.",
+    "category": "ai",
+    "type": "interactive"
+  },
+  {
     "slug": "daniel-boone-ai-pd",
     "title": "AI in the Classroom",
     "blurb": "Faculty in-service for Daniel Boone High School: the free tools worth using Monday, what to do about cheating, and why assignment design beats detection.",
