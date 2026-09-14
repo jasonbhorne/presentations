@@ -82,5 +82,12 @@
     "blurb": "Keynote for the TechBlitz 2025 educational technology event.",
     "category": "ai",
     "type": "images"
+  },
+  {
+    "slug": "tn-instructional-leadership",
+    "title": "Tennessee Instructional Leadership Site",
+    "blurb": "An unofficial wayfinding layer over the Tennessee Department of Education's resources, organized by what a school leader actually does. Every link verified, and the broken ones shown rather than hidden.",
+    "category": "leadership",
+    "type": "site"
   }
 ]
