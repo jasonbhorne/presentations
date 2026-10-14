@@ -380,6 +380,28 @@ em { color: var(--orange); font-style: italic; }
 .gate .g.no { background: #FBEEE8; border-color: #EBD2C4; }
 .gate .g.yes { background: #F0F5F0; border-color: #CFE0D2; }
 .gate .g.yes .age { color: #2E7D4F; }
+/*SLIDO-CSS*/
+    /* ---- Slido live-interaction slides ---- */
+    .slido .sl-wrap { display: flex; align-items: center; gap: 46px; }
+    .slido .sl-body { flex: 1; min-width: 0; }
+    .slido h2 { font-size: 40px; margin-bottom: 4px; }
+    .slido .sl-ask { margin-top: 20px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 14px; padding: 20px 26px;
+      font-size: 21px; line-height: 1.45; color: var(--text-primary); }
+    .slido .sl-ask b { font-weight: 700; color: var(--orange-deep); }
+    .slido .sl-join { flex: none; width: 330px; text-align: center; }
+    .slido .sl-qr { width: 300px; height: 300px; background: #fff;
+      border: 1px solid var(--border); border-radius: 16px; padding: 14px;
+      margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+    .slido .sl-qr img { width: 100%; height: 100%; display: block; }
+    .slido .sl-qr.empty { border: 2px dashed var(--orange); color: var(--orange);
+      font-size: 15px; font-weight: 600; line-height: 1.5; padding: 24px; }
+    .slido .sl-url { margin-top: 16px; font-family: var(--font-body);
+      font-weight: 700; font-size: 27px; color: var(--text-primary); }
+    .slido .sl-code { margin-top: 2px; font-family: var(--font-body);
+      font-weight: 700; font-size: 34px; letter-spacing: 0.02em; color: var(--orange); }
+    .slido .sl-hint { margin-top: 8px; font-size: 14px; color: var(--text-secondary); }
+/*/SLIDO-CSS*/
 </style>
 </head>
 <body>
@@ -440,6 +462,24 @@ em { color: var(--orange); font-style: italic; }
   </section>
 
   <!-- THE CLOSED LOOP -->
+  <!--SLIDO-->
+  <section class="slide slido">
+    <div class="sl-wrap">
+      <div class="sl-body">
+        <div class="eyebrow" data-reveal>Live poll &middot; everyone answers</div>
+        <h2 data-reveal>First, a show of hands that nobody can see.</h2>
+        <div class="sl-ask" data-reveal>Have you used AI this school year? <b>Lesson plans, emails, a rubric, anything.</b></div>
+      </div>
+      <div class="sl-join" data-reveal>
+        <div class="sl-qr"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbwAAAG8AQAAAACNyy1yAAACw0lEQVR4nO2cXW7sIAyFj6/yDjvo/pc1O4AVuA82YCZ5ylSDyD2omqaETynSkcd/QRS3Rv13jwMIEiRI8NkgVINlTaoFSOqTyW9pOS/baI8EHwQmteHXL5EMLfA/SxNtXLbdHgluDx72SwCkYhcKKCBJAWiVt7t2sdUeCT4DPN4nUpGkkopW6Yr90ycSJHhvnLQKwOwqIKkoIKkEc/r5EwkSvDdcq2fr6TM1a5Uu1LBsoz0SfBBYxUafldx+flR+1GbmZbvtkeD24IGTUTVPVds1qsSZj59IkODNoao9j+qZ1f5Z4AmrnnFta5hfJfh1cGhVdaRSXaV9TasFDOlSqwS/DTYRmlCByYSGu3YrqHqjPRJ8FGgRk5vTKmZItUCy33UlV2kOw357JLg5eABAKmIJ1Va3QlLB6AewYTUsy7hutUeCzwCbv2qRVB8FPbDqfmyfp79KcJVWR3fKqaXq3V9tC6hVgl8HQ2ylU8IKzeROfVaFOSuCq8AhSIueYrZqeAXtVki9brRHgs8AR++KAFozkkpS6W2BNcOjrSIWXrEnkOAaEJPZ7J8xoToXrRqy0R4JPgNEd1PR/YFQohrSDXVY+gAEF9rVi6JqqKsO9fYojFol+G0wBPtBojGnGptYXLe0qwSXxlZas9WqvI3VvvRrtiCrv8ziha2d9kjwGeCURJ36rIKPOuxtAcC6FcEl4BRP4dRShXNgBWqV4BIw9ADo8E4Rc1mz78q6FcFF4MW5K6NHJRrVlmsF86sE14DDBxhZ1rm0enFwEH0Aguu0CoS2/4Ip2sLUyMqcFcFF4MVZFpIU1lZtbwHU7O+0epf1h08kSPDeuDojyN6wrlnCASwYmVXmVwmuBEfU/5IYQ8Hc15eYA2sHXKz9Vwn+r+ABwL7xbVhDoJerAKRilSxboe1ci632SPAZoPAMdoIECRL8U/AXgpOjUJ0yR2sAAAAASUVORK5CYII=" alt="Scan to join"></div>
+        <div class="sl-url">slido.com</div>
+        <div class="sl-code">#1741844</div>
+        <div class="sl-hint">Scan it, or type the code. Answers are anonymous.</div>
+      </div>
+    </div>
+  </section>
+<!--/SLIDO-->
+
   <section class="slide">
     <div class="eyebrow" data-reveal>My greatest fear</div>
     <h2 data-reveal>Everybody uses AI. Nobody does anything.</h2>
@@ -620,6 +660,24 @@ em { color: var(--orange); font-style: italic; }
   </section>
 
   <!-- DETECTORS FAIL -->
+  <!--SLIDO-->
+  <section class="slide slido">
+    <div class="sl-wrap">
+      <div class="sl-body">
+        <div class="eyebrow" data-reveal>Live poll &middot; anonymous, and I mean it</div>
+        <h2 data-reveal>Have you ever run a student's work through an AI detector?</h2>
+        <div class="sl-ask" data-reveal>No judgment and no names. I am asking because of what the next slide says about how often those tools are <b>wrong</b>.</div>
+      </div>
+      <div class="sl-join" data-reveal>
+        <div class="sl-qr"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbwAAAG8AQAAAACNyy1yAAACw0lEQVR4nO2cXW7sIAyFj6/yDjvo/pc1O4AVuA82YCZ5ylSDyD2omqaETynSkcd/QRS3Rv13jwMIEiRI8NkgVINlTaoFSOqTyW9pOS/baI8EHwQmteHXL5EMLfA/SxNtXLbdHgluDx72SwCkYhcKKCBJAWiVt7t2sdUeCT4DPN4nUpGkkopW6Yr90ycSJHhvnLQKwOwqIKkoIKkEc/r5EwkSvDdcq2fr6TM1a5Uu1LBsoz0SfBBYxUafldx+flR+1GbmZbvtkeD24IGTUTVPVds1qsSZj59IkODNoao9j+qZ1f5Z4AmrnnFta5hfJfh1cGhVdaRSXaV9TasFDOlSqwS/DTYRmlCByYSGu3YrqHqjPRJ8FGgRk5vTKmZItUCy33UlV2kOw357JLg5eABAKmIJ1Va3QlLB6AewYTUsy7hutUeCzwCbv2qRVB8FPbDqfmyfp79KcJVWR3fKqaXq3V9tC6hVgl8HQ2ylU8IKzeROfVaFOSuCq8AhSIueYrZqeAXtVki9brRHgs8AR++KAFozkkpS6W2BNcOjrSIWXrEnkOAaEJPZ7J8xoToXrRqy0R4JPgNEd1PR/YFQohrSDXVY+gAEF9rVi6JqqKsO9fYojFol+G0wBPtBojGnGptYXLe0qwSXxlZas9WqvI3VvvRrtiCrv8ziha2d9kjwGeCURJ36rIKPOuxtAcC6FcEl4BRP4dRShXNgBWqV4BIw9ADo8E4Rc1mz78q6FcFF4MW5K6NHJRrVlmsF86sE14DDBxhZ1rm0enFwEH0Aguu0CoS2/4Ip2sLUyMqcFcFF4MVZFpIU1lZtbwHU7O+0epf1h08kSPDeuDojyN6wrlnCASwYmVXmVwmuBEfU/5IYQ8Hc15eYA2sHXKz9Vwn+r+ABwL7xbVhDoJerAKRilSxboe1ci632SPAZoPAMdoIECRL8U/AXgpOjUJ0yR2sAAAAASUVORK5CYII=" alt="Scan to join"></div>
+        <div class="sl-url">slido.com</div>
+        <div class="sl-code">#1741844</div>
+        <div class="sl-hint">Scan it, or type the code. Answers are anonymous.</div>
+      </div>
+    </div>
+  </section>
+<!--/SLIDO-->
+
   <section class="slide">
     <div class="eyebrow" data-reveal>The hard truth</div>
     <h2 data-reveal>AI detectors will let you down.</h2>
@@ -745,6 +803,24 @@ em { color: var(--orange); font-style: italic; }
   </section>
 
   <!-- DISCUSSION -->
+  <!--SLIDO-->
+  <section class="slide slido">
+    <div class="sl-wrap">
+      <div class="sl-body">
+        <div class="eyebrow" data-reveal>Word cloud &middot; two words or less</div>
+        <h2 data-reveal>What's the one AI worry you walked in with today?</h2>
+        <div class="sl-ask" data-reveal>Put it on the board and we will take the biggest ones one at a time. <b>Nothing here has your name on it.</b></div>
+      </div>
+      <div class="sl-join" data-reveal>
+        <div class="sl-qr"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbwAAAG8AQAAAACNyy1yAAACw0lEQVR4nO2cXW7sIAyFj6/yDjvo/pc1O4AVuA82YCZ5ylSDyD2omqaETynSkcd/QRS3Rv13jwMIEiRI8NkgVINlTaoFSOqTyW9pOS/baI8EHwQmteHXL5EMLfA/SxNtXLbdHgluDx72SwCkYhcKKCBJAWiVt7t2sdUeCT4DPN4nUpGkkopW6Yr90ycSJHhvnLQKwOwqIKkoIKkEc/r5EwkSvDdcq2fr6TM1a5Uu1LBsoz0SfBBYxUafldx+flR+1GbmZbvtkeD24IGTUTVPVds1qsSZj59IkODNoao9j+qZ1f5Z4AmrnnFta5hfJfh1cGhVdaRSXaV9TasFDOlSqwS/DTYRmlCByYSGu3YrqHqjPRJ8FGgRk5vTKmZItUCy33UlV2kOw357JLg5eABAKmIJ1Va3QlLB6AewYTUsy7hutUeCzwCbv2qRVB8FPbDqfmyfp79KcJVWR3fKqaXq3V9tC6hVgl8HQ2ylU8IKzeROfVaFOSuCq8AhSIueYrZqeAXtVki9brRHgs8AR++KAFozkkpS6W2BNcOjrSIWXrEnkOAaEJPZ7J8xoToXrRqy0R4JPgNEd1PR/YFQohrSDXVY+gAEF9rVi6JqqKsO9fYojFol+G0wBPtBojGnGptYXLe0qwSXxlZas9WqvI3VvvRrtiCrv8ziha2d9kjwGeCURJ36rIKPOuxtAcC6FcEl4BRP4dRShXNgBWqV4BIw9ADo8E4Rc1mz78q6FcFF4MW5K6NHJRrVlmsF86sE14DDBxhZ1rm0enFwEH0Aguu0CoS2/4Ip2sLUyMqcFcFF4MVZFpIU1lZtbwHU7O+0epf1h08kSPDeuDojyN6wrlnCASwYmVXmVwmuBEfU/5IYQ8Hc15eYA2sHXKz9Vwn+r+ABwL7xbVhDoJerAKRilSxboe1ci632SPAZoPAMdoIECRL8U/AXgpOjUJ0yR2sAAAAASUVORK5CYII=" alt="Scan to join"></div>
+        <div class="sl-url">slido.com</div>
+        <div class="sl-code">#1741844</div>
+        <div class="sl-hint">Scan it, or type the code. Answers are anonymous.</div>
+      </div>
+    </div>
+  </section>
+<!--/SLIDO-->
+
   <section class="slide statement">
     <div class="eyebrow" data-reveal>Open floor</div>
     <h2 data-reveal>What's the one AI worry<br>you walked in with today?</h2>

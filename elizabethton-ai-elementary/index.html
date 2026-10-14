@@ -380,6 +380,28 @@ em { color: var(--orange); font-style: italic; }
 .gate .g.no { background: #FBEEE8; border-color: #EBD2C4; }
 .gate .g.yes { background: #F0F5F0; border-color: #CFE0D2; }
 .gate .g.yes .age { color: #2E7D4F; }
+/*SLIDO-CSS*/
+    /* ---- Slido live-interaction slides ---- */
+    .slido .sl-wrap { display: flex; align-items: center; gap: 46px; }
+    .slido .sl-body { flex: 1; min-width: 0; }
+    .slido h2 { font-size: 40px; margin-bottom: 4px; }
+    .slido .sl-ask { margin-top: 20px; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 14px; padding: 20px 26px;
+      font-size: 21px; line-height: 1.45; color: var(--text-primary); }
+    .slido .sl-ask b { font-weight: 700; color: var(--orange-deep); }
+    .slido .sl-join { flex: none; width: 330px; text-align: center; }
+    .slido .sl-qr { width: 300px; height: 300px; background: #fff;
+      border: 1px solid var(--border); border-radius: 16px; padding: 14px;
+      margin: 0 auto; display: flex; align-items: center; justify-content: center; }
+    .slido .sl-qr img { width: 100%; height: 100%; display: block; }
+    .slido .sl-qr.empty { border: 2px dashed var(--orange); color: var(--orange);
+      font-size: 15px; font-weight: 600; line-height: 1.5; padding: 24px; }
+    .slido .sl-url { margin-top: 16px; font-family: var(--font-body);
+      font-weight: 700; font-size: 27px; color: var(--text-primary); }
+    .slido .sl-code { margin-top: 2px; font-family: var(--font-body);
+      font-weight: 700; font-size: 34px; letter-spacing: 0.02em; color: var(--orange); }
+    .slido .sl-hint { margin-top: 8px; font-size: 14px; color: var(--text-secondary); }
+/*/SLIDO-CSS*/
 </style>
 </head>
 <body>
@@ -440,6 +462,24 @@ em { color: var(--orange); font-style: italic; }
   </section>
 
   <!-- THE CLOSED LOOP -->
+  <!--SLIDO-->
+  <section class="slide slido">
+    <div class="sl-wrap">
+      <div class="sl-body">
+        <div class="eyebrow" data-reveal>Live poll &middot; everyone answers</div>
+        <h2 data-reveal>First, a show of hands that nobody can see.</h2>
+        <div class="sl-ask" data-reveal>Have you used AI this school year? <b>Lesson plans, newsletters, a leveled passage, anything.</b></div>
+      </div>
+      <div class="sl-join" data-reveal>
+        <div class="sl-qr"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbwAAAG8AQAAAACNyy1yAAACvklEQVR4nO2cXY7kIAyEy6t+JzeY+x+rbwAnqH0wPybZmdX2tAaRLdSKSMKntCXLIWWDES+18us1DhAoUKDA+4PW2wEUQ6lnKGYHANRjHLabjQL3Bx8AkLKfGGAAAJ8YWGI8jcO2slHgrcAWLYFE+yBaLOUzxtIwbEMbBW4OPq6XCFgPoYnmV972RIECX2tnXx1uWcxPkTLKcZELNrJR4D3A6qvRFb1P989yELDEy7CNbBR4DxBkcMDEr35hGPNGNgq8B/jAHFT91d87bEeehu1ko8B7gCCJRG8ePJnBDJLe8aDqHeaKKK4K/HFwmgMM5+x9YPhnGylfFbjKV2sgzQCGo/a714mrfFXgQl9Fj5ztM6pebxOAEX7rlY1sFHgPsDrhePUzTFnbxNVjKXoQVlwVuAiscfVpzLCjhdBEAPbBrgwww6tZVLsicGEuwN2xav6u/wNoaayRzEpsOayNbBR4D7C94vMkSQFTXiBIVZqvClwFPtCl/mI9OUXUQtYpBVCOdzxRoMBvgN1FnwZUL63Xy1Qr6FNW5nV/VeD/Cwapytusr2JOCmgOIHAdiOGoLdMa1ao6jw26q3xV4CIw1K70qpXEvpjFwmy21grW8RvZKPA+oB0tivZEQO+zrWdJQ3Rd+FcFCrSjraVKDIuqgCAOeOA1s7c8UaDAf23nGoAmt/as61lfhWqtBS4Bp4xq7aS5orUVA/S7qgcQuFCz6q1/9V+lqkkxkK8K/GnwgbieOmU2NcB6JUDb0aIuxK7LsTeyUeA9wPMals/WBZxmAoqrAleBcd+VfvSkahWsirkC0Dx2PxsFbg5e9l0pR1X7EyfBCmA5MLZk2chGgfcFvXalGBL5HP1x9+1PFCjw7+0P+67Av6dC9h+JNjKw+XtPFCjwxTa+mICTmhqTrXGw9FWBK0DTHuwCBQoU+FbwNyAsMUWbAXFSAAAAAElFTkSuQmCC" alt="Scan to join"></div>
+        <div class="sl-url">slido.com</div>
+        <div class="sl-code">#5182368</div>
+        <div class="sl-hint">Scan it, or type the code. Answers are anonymous.</div>
+      </div>
+    </div>
+  </section>
+<!--/SLIDO-->
+
   <section class="slide">
     <div class="eyebrow" data-reveal>My greatest fear</div>
     <h2 data-reveal>Everybody uses AI. Nobody does anything.</h2>
@@ -478,6 +518,24 @@ em { color: var(--orange); font-style: italic; }
   </section>
 
   <!-- THE HOURS -->
+  <!--SLIDO-->
+  <section class="slide slido">
+    <div class="sl-wrap">
+      <div class="sl-body">
+        <div class="eyebrow" data-reveal>Live poll &middot; pick one</div>
+        <h2 data-reveal>Which one eats the most of your planning period?</h2>
+        <div class="sl-ask" data-reveal>Your answer, not my list. Whichever one wins, that is the one we build together in the next block.</div>
+      </div>
+      <div class="sl-join" data-reveal>
+        <div class="sl-qr"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbwAAAG8AQAAAACNyy1yAAACvklEQVR4nO2cXY7kIAyEy6t+JzeY+x+rbwAnqH0wPybZmdX2tAaRLdSKSMKntCXLIWWDES+18us1DhAoUKDA+4PW2wEUQ6lnKGYHANRjHLabjQL3Bx8AkLKfGGAAAJ8YWGI8jcO2slHgrcAWLYFE+yBaLOUzxtIwbEMbBW4OPq6XCFgPoYnmV972RIECX2tnXx1uWcxPkTLKcZELNrJR4D3A6qvRFb1P989yELDEy7CNbBR4DxBkcMDEr35hGPNGNgq8B/jAHFT91d87bEeehu1ko8B7gCCJRG8ePJnBDJLe8aDqHeaKKK4K/HFwmgMM5+x9YPhnGylfFbjKV2sgzQCGo/a714mrfFXgQl9Fj5ztM6pebxOAEX7rlY1sFHgPsDrhePUzTFnbxNVjKXoQVlwVuAiscfVpzLCjhdBEAPbBrgwww6tZVLsicGEuwN2xav6u/wNoaayRzEpsOayNbBR4D7C94vMkSQFTXiBIVZqvClwFPtCl/mI9OUXUQtYpBVCOdzxRoMBvgN1FnwZUL63Xy1Qr6FNW5nV/VeD/Cwapytusr2JOCmgOIHAdiOGoLdMa1ao6jw26q3xV4CIw1K70qpXEvpjFwmy21grW8RvZKPA+oB0tivZEQO+zrWdJQ3Rd+FcFCrSjraVKDIuqgCAOeOA1s7c8UaDAf23nGoAmt/as61lfhWqtBS4Bp4xq7aS5orUVA/S7qgcQuFCz6q1/9V+lqkkxkK8K/GnwgbieOmU2NcB6JUDb0aIuxK7LsTeyUeA9wPMals/WBZxmAoqrAleBcd+VfvSkahWsirkC0Dx2PxsFbg5e9l0pR1X7EyfBCmA5MLZk2chGgfcFvXalGBL5HP1x9+1PFCjw7+0P+67Av6dC9h+JNjKw+XtPFCjwxTa+mICTmhqTrXGw9FWBK0DTHuwCBQoU+FbwNyAsMUWbAXFSAAAAAElFTkSuQmCC" alt="Scan to join"></div>
+        <div class="sl-url">slido.com</div>
+        <div class="sl-code">#5182368</div>
+        <div class="sl-hint">Scan it, or type the code. Answers are anonymous.</div>
+      </div>
+    </div>
+  </section>
+<!--/SLIDO-->
+
   <section class="slide">
     <div class="eyebrow" data-reveal>Be honest about the week</div>
     <h2 data-reveal>The five things eating your planning period.</h2>
@@ -721,6 +779,24 @@ em { color: var(--orange); font-style: italic; }
   </section>
 
   <!-- DISCUSSION -->
+  <!--SLIDO-->
+  <section class="slide slido">
+    <div class="sl-wrap">
+      <div class="sl-body">
+        <div class="eyebrow" data-reveal>Word cloud &middot; two words or less</div>
+        <h2 data-reveal>What's the one AI worry you walked in with today?</h2>
+        <div class="sl-ask" data-reveal>Put it on the board and we will take the biggest ones one at a time. <b>Nothing here has your name on it.</b></div>
+      </div>
+      <div class="sl-join" data-reveal>
+        <div class="sl-qr"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAbwAAAG8AQAAAACNyy1yAAACvklEQVR4nO2cXY7kIAyEy6t+JzeY+x+rbwAnqH0wPybZmdX2tAaRLdSKSMKntCXLIWWDES+18us1DhAoUKDA+4PW2wEUQ6lnKGYHANRjHLabjQL3Bx8AkLKfGGAAAJ8YWGI8jcO2slHgrcAWLYFE+yBaLOUzxtIwbEMbBW4OPq6XCFgPoYnmV972RIECX2tnXx1uWcxPkTLKcZELNrJR4D3A6qvRFb1P989yELDEy7CNbBR4DxBkcMDEr35hGPNGNgq8B/jAHFT91d87bEeehu1ko8B7gCCJRG8ePJnBDJLe8aDqHeaKKK4K/HFwmgMM5+x9YPhnGylfFbjKV2sgzQCGo/a714mrfFXgQl9Fj5ztM6pebxOAEX7rlY1sFHgPsDrhePUzTFnbxNVjKXoQVlwVuAiscfVpzLCjhdBEAPbBrgwww6tZVLsicGEuwN2xav6u/wNoaayRzEpsOayNbBR4D7C94vMkSQFTXiBIVZqvClwFPtCl/mI9OUXUQtYpBVCOdzxRoMBvgN1FnwZUL63Xy1Qr6FNW5nV/VeD/Cwapytusr2JOCmgOIHAdiOGoLdMa1ao6jw26q3xV4CIw1K70qpXEvpjFwmy21grW8RvZKPA+oB0tivZEQO+zrWdJQ3Rd+FcFCrSjraVKDIuqgCAOeOA1s7c8UaDAf23nGoAmt/as61lfhWqtBS4Bp4xq7aS5orUVA/S7qgcQuFCz6q1/9V+lqkkxkK8K/GnwgbieOmU2NcB6JUDb0aIuxK7LsTeyUeA9wPMals/WBZxmAoqrAleBcd+VfvSkahWsirkC0Dx2PxsFbg5e9l0pR1X7EyfBCmA5MLZk2chGgfcFvXalGBL5HP1x9+1PFCjw7+0P+67Av6dC9h+JNjKw+XtPFCjwxTa+mICTmhqTrXGw9FWBK0DTHuwCBQoU+FbwNyAsMUWbAXFSAAAAAElFTkSuQmCC" alt="Scan to join"></div>
+        <div class="sl-url">slido.com</div>
+        <div class="sl-code">#5182368</div>
+        <div class="sl-hint">Scan it, or type the code. Answers are anonymous.</div>
+      </div>
+    </div>
+  </section>
+<!--/SLIDO-->
+
   <section class="slide statement">
     <div class="eyebrow" data-reveal>Open floor</div>
     <h2 data-reveal>What's the one AI worry<br>you walked in with today?</h2>
